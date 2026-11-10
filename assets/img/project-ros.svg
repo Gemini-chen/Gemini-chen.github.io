@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="1000" height="620" role="img" aria-label="ROS2 自主导航无人车系统架构示意图">
+  <defs>
+    <pattern id="g1" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#dfe6f1" stroke-width="1"/>
+    </pattern>
+    <pattern id="g2" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M200 0H0V200" fill="none" stroke="#ccd8ea" stroke-width="1"/>
+    </pattern>
+    <marker id="ar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#1a5cff" stroke-width="1.5"/>
+    </marker>
+    <style>
+      .lbl{font-family:Consolas,Menlo,monospace;font-size:13px;fill:#5a6a80;letter-spacing:.04em}
+      .key{font-family:Consolas,Menlo,monospace;font-size:14px;fill:#0b1016;letter-spacing:.04em}
+      .tiny{font-family:Consolas,Menlo,monospace;font-size:11px;fill:#8c9bb0;letter-spacing:.1em}
+      .ln{fill:none;stroke:#c6d2e3;stroke-width:1.2}
+      .acc{fill:none;stroke:#1a5cff;stroke-width:1.6}
+      .dash{fill:none;stroke:#1a5cff;stroke-width:1.5;stroke-dasharray:7 6}
+      .node{fill:#fff;stroke:#0b1016;stroke-width:1.8}
+      .node-hi{fill:#eaf0ff;stroke:#1a5cff;stroke-width:1.8}
+    </style>
+  </defs>
+
+  <rect width="1000" height="620" fill="#f7f9fc"/>
+  <rect width="1000" height="620" fill="url(#g1)"/>
+  <rect width="1000" height="620" fill="url(#g2)"/>
+
+  <text class="key" x="40" y="42">FIG.03 / ROS2 AUTONOMOUS NAVIGATION STACK</text>
+  <text class="tiny" x="960" y="42" text-anchor="end">REV. 2026 · ROS2 / NAV2</text>
+  <line class="ln" x1="40" y1="58" x2="960" y2="58"/>
+  <g class="ln" stroke="#1a5cff"><path d="M40 30v-12h12"/><path d="M960 30v-12h-12"/></g>
+
+  <!-- layer rails -->
+  <text class="tiny" x="40" y="92">L0 — 下位机执行</text>
+  <text class="tiny" x="390" y="92">L1 — 中位机调度</text>
+  <text class="tiny" x="740" y="92">L2 — 上位机规划</text>
+  <g class="ln" stroke-dasharray="3 6">
+    <path d="M370 76v470"/><path d="M720 76v470"/>
+  </g>
+
+  <!-- planned path -->
+  <path d="M96 470 C 210 470, 240 300, 360 296 S 520 430, 620 380 S 760 200, 900 176" class="dash" opacity=".55"/>
+  <g fill="#1a5cff" opacity=".55">
+    <circle cx="360" cy="296" r="4"/><circle cx="620" cy="380" r="4"/><circle cx="900" cy="176" r="4"/>
+  </g>
+
+  <!-- obstacles / costmap -->
+  <g fill="none" stroke="#b9c7dc" stroke-width="1.2">
+    <rect x="268" y="376" width="46" height="46" rx="4"/>
+    <rect x="538" y="196" width="46" height="46" rx="4"/>
+    <rect x="820" y="396" width="46" height="46" rx="4"/>
+  </g>
+  <g fill="#c6d2e3">
+    <circle cx="278" cy="386" r="2"/><circle cx="304" cy="412" r="2"/>
+    <circle cx="548" cy="206" r="2"/><circle cx="574" cy="232" r="2"/>
+    <circle cx="830" cy="406" r="2"/><circle cx="856" cy="432" r="2"/>
+  </g>
+
+  <!-- nodes -->
+  <g>
+    <rect class="node" x="40" y="132" width="230" height="72" rx="10"/>
+    <text class="key" x="58" y="162">STM32F4 下位机</text>
+    <text class="tiny" x="58" y="184">KINEMATICS · PWM · ENCODER</text>
+
+    <rect class="node" x="40" y="272" width="230" height="72" rx="10"/>
+    <text class="key" x="58" y="302">编码器 / IMU / ADC</text>
+    <text class="tiny" x="58" y="324">SENSOR FUSION · UART</text>
+
+    <rect class="node" x="40" y="432" width="230" height="72" rx="10"/>
+    <text class="key" x="58" y="462">N10 激光雷达</text>
+    <text class="tiny" x="58" y="484">SELF-WRITTEN /scan DRIVER</text>
+
+    <rect class="node-hi" x="390" y="132" width="230" height="72" rx="10"/>
+    <text class="key" x="408" y="162">树莓派 · 中位机</text>
+    <text class="tiny" x="408" y="184">ROS2 · SERIAL BRIDGE</text>
+
+    <rect class="node" x="390" y="330" width="230" height="72" rx="10"/>
+    <text class="key" x="408" y="360">EKF 融合 · 50Hz</text>
+    <text class="tiny" x="408" y="382">odom → map 校正</text>
+
+    <rect class="node" x="740" y="132" width="220" height="72" rx="10"/>
+    <text class="key" x="758" y="162">PC 上位机</text>
+    <text class="tiny" x="758" y="184">RVIZ · SIM · MONITOR</text>
+
+    <rect class="node-hi" x="740" y="272" width="220" height="72" rx="10"/>
+    <text class="key" x="758" y="302">Nav2 导航栈</text>
+    <text class="tiny" x="758" y="324">NavFn + DWB · COSTMAP</text>
+
+    <rect class="node" x="740" y="432" width="220" height="72" rx="10"/>
+    <text class="key" x="758" y="462">slam_toolbox</text>
+    <text class="tiny" x="758" y="484">ASYNC MAPPING · BT</text>
+  </g>
+
+  <!-- links -->
+  <g class="acc" marker-end="url(#ar)">
+    <path d="M155 272v-68"/>
+    <path d="M270 168h120"/>
+    <path d="M620 168h120"/>
+    <path d="M505 204v126"/>
+    <path d="M620 366h120"/>
+    <path d="M850 272v-68"/>
+    <path d="M850 344v88"/>
+    <path d="M270 468h470"/>
+  </g>
+  <g class="ln" marker-end="url(#ar)" stroke="#9fb0c8">
+    <path d="M740 168h-120"/>
+    <path d="M620 402v-70"/>
+  </g>
+
+  <!-- link labels -->
+  <text class="tiny" x="278" y="158">串口上报</text>
+  <text class="tiny" x="628" y="158">远程指令</text>
+  <text class="tiny" x="516" y="272">里程计</text>
+  <text class="tiny" x="628" y="356">全局校正</text>
+  <text class="tiny" x="858" y="262">行为树</text>
+  <text class="tiny" x="858" y="414">/scan</text>
+
+  <!-- footer -->
+  <line class="ln" x1="40" y1="556" x2="960" y2="556"/>
+  <text class="lbl" x="40" y="582">下位机执行 → 中位机调度 → 上位机规划</text>
+  <text class="tiny" x="960" y="582" text-anchor="end">DIAG.03 · 全栈自主移动机器人</text>
+  <text class="tiny" x="40" y="604">EKF × 2 / 多层 Costmap / 无先验地图动态避障与在线重规划</text>
+  <text class="tiny" x="960" y="604" text-anchor="end">SCALE / NTS</text>
+</svg>
