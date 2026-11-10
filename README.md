@@ -6,10 +6,10 @@
 
 | 路径 | 说明 |
 | --- | --- |
-| `index.html` | 单页结构：Hero / 关于我 / 精选项目 / 实机演示 / 个人优势 / 联系页尾 |
+| `index.html` | 单页结构：Hero / 关于我 / 精选项目 / 实机演示 / 实验数据 / 个人优势 / 联系页尾 |
 | `assets/css/style.css` | 全部样式，设计变量集中在 `:root` |
 | `assets/js/main.js` | 导航、滚动动效、项目详情弹层、视频播放器；`PROJECTS` 数组集中管理项目文案 |
-| `assets/img/` | 头像、三张项目技术示意图、视频封面 |
+| `assets/img/` | 头像、三张项目技术示意图、视频封面、三张 ROS2 实验数据图（点击可放大） |
 | `assets/video/ros2-obstacle-avoidance.mp4` | ROS2 避障小车实机演示（1280×720，H.264 + AAC） |
 | `.nojekyll` | 让 GitHub Pages 跳过 Jekyll，直接分发静态文件 |
 | `tools/serve.py` | 本地预览服务器，支持 HTTP Range |

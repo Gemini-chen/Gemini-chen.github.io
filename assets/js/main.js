@@ -110,6 +110,7 @@
   const modalHighlights = document.getElementById('modalHighlights');
   const modalStack = document.getElementById('modalStack');
   const modalDemoLink = document.getElementById('modalDemoLink');
+  const modalFiguresLink = document.getElementById('modalFiguresLink');
   const closeBtn = modal.querySelector('.modal__close');
   let lastFocused = null;
 
@@ -135,7 +136,8 @@
       li.textContent = text;
       modalStack.appendChild(li);
     });
-    modalDemoLink.hidden = (i !== 2); // 仅项目 03 有实机演示视频
+    modalDemoLink.hidden = (i !== 2);     // 仅项目 03 有实机演示视频
+    modalFiguresLink.hidden = (i !== 2);  // 仅项目 03 有实验数据图集
     modal.querySelector('.modal__panel').scrollTop = 0;
   }
 
@@ -176,6 +178,7 @@
     el.addEventListener('click', function () { closeModal(); });
   });
   modalDemoLink.addEventListener('click', function () { closeModal(true); });
+  modalFiguresLink.addEventListener('click', function () { closeModal(true); });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape') closeModal();
   });
@@ -197,4 +200,51 @@
     video.addEventListener('play', function () { player.classList.add('is-playing'); });
     video.addEventListener('error', function () { player.classList.remove('is-playing'); });
   }
+
+  /* ---------- 实验数据图集：点击放大（复用原图 URL，不重复下载） ---------- */
+  const lightbox = document.getElementById('figureLightbox');
+  const lbImage = document.getElementById('lbImage');
+  const lbIndex = document.getElementById('lbIndex');
+  const lbTitle = document.getElementById('lbTitle');
+  const lbNote = document.getElementById('lbNote');
+  const lbOpen = document.getElementById('lbOpen');
+  const lbClose = lightbox.querySelector('.lightbox__close');
+  let lbLastFocused = null;
+
+  function openLightbox(btn) {
+    const img = btn.querySelector('img');
+    const fig = btn.closest('.fig');
+    if (!img || !fig) return;
+    lbLastFocused = document.activeElement;
+    const src = img.currentSrc || img.src;
+    lbImage.src = src;
+    lbImage.alt = img.alt;
+    lbOpen.href = src;
+    lbIndex.textContent = fig.querySelector('.fig__no').textContent.trim();
+    lbTitle.textContent = fig.querySelector('.fig__text h4').textContent.trim();
+    lbNote.textContent = fig.querySelector('.fig__meta').textContent.trim() + ' · ESC 关闭';
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    lbClose.focus();
+  }
+
+  function closeLightbox() {
+    if (!lightbox.classList.contains('is-open')) return;
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+    lbImage.removeAttribute('src');
+    if (lbLastFocused && typeof lbLastFocused.focus === 'function') lbLastFocused.focus();
+  }
+
+  document.querySelectorAll('[data-figure]').forEach(function (btn) {
+    btn.addEventListener('click', function () { openLightbox(btn); });
+  });
+  lightbox.querySelectorAll('[data-lb-close]').forEach(function (el) {
+    el.addEventListener('click', closeLightbox);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
 })();

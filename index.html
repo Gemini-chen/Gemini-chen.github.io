@@ -280,7 +280,10 @@
               <p class="p-en">ROS2 / NAV2 / SLAM · FULL STACK</p>
               <p class="p-desc">独立完成「下位机执行—中位机调度—上位机规划」闭环：两级 EKF 融合定位、slam_toolbox 实时建图、Nav2 全局/局部规划与行为树恢复，并自研 N10 激光雷达驱动。</p>
               <ul class="tags"><li>ROS2</li><li>Nav2</li><li>slam_toolbox</li><li>EKF</li><li>Python</li></ul>
-              <a class="p-demo" href="#demo">▶ 实机演示 01:46 <span aria-hidden="true">↗</span></a>
+              <div class="p-links">
+                <a class="p-demo" href="#demo">▶ 实机演示 01:46 <span aria-hidden="true">↗</span></a>
+                <a class="p-demo" href="#figures">▦ 实验数据 03 图 <span aria-hidden="true">↗</span></a>
+              </div>
               <button class="p-more" type="button" data-open="2">查看技术细节 <span aria-hidden="true">↗</span></button>
             </div>
           </article>
@@ -326,6 +329,64 @@
               </div>
               <a class="demo__open" href="assets/video/ros2-obstacle-avoidance.mp4" target="_blank" rel="noopener">在新窗口打开视频 <span aria-hidden="true">↗</span></a>
             </aside>
+          </div>
+        </div>
+
+        <!-- ============ 实验数据 / EXPERIMENT DATA ============ -->
+        <div class="figures" id="figures" data-reveal>
+          <div class="demo__head">
+            <div>
+              <span class="demo__label">02.5 / EXPERIMENT DATA</span>
+              <h3>定位、滤波与建图 · 实验数据</h3>
+            </div>
+            <p>真实跑车导出的曲线与 RViz 画面，不是仿真结果。点击任意图可放大查看。</p>
+          </div>
+
+          <div class="figures__grid">
+            <figure class="fig fig--wide">
+              <button class="fig__view" type="button" data-figure aria-label="放大查看 EKF 融合前后对比图">
+                <img src="assets/img/ros-ekf-comparison.png" alt="EKF 融合前后轨迹与线速度对比：蓝色为原始里程计，红色为 EKF 滤波结果" width="3553" height="1482" loading="eager" decoding="async">
+                <span class="fig__zoom" aria-hidden="true">↗</span>
+              </button>
+              <figcaption class="fig__cap">
+                <span class="fig__no">FIG. 01</span>
+                <div class="fig__text">
+                  <h4>EKF 融合前后对比</h4>
+                  <p>左：原始 odom 与两级 EKF 的平面轨迹；右：线速度 vx 时序。融合后轨迹漂移收敛，速度噪声尖峰被显著抑制。</p>
+                </div>
+                <span class="fig__meta">ODOM vs EKF · 3553×1482</span>
+              </figcaption>
+            </figure>
+
+            <figure class="fig">
+              <button class="fig__view" type="button" data-figure aria-label="放大查看 EKF 滤波后机器人轨迹图">
+                <img src="assets/img/ros-trajectory-filtered.png" alt="EKF 滤波后的机器人平面轨迹，标注绿色起点与红色终点" width="1200" height="900" loading="eager" decoding="async">
+                <span class="fig__zoom" aria-hidden="true">↗</span>
+              </button>
+              <figcaption class="fig__cap">
+                <span class="fig__no">FIG. 02</span>
+                <div class="fig__text">
+                  <h4>滤波后机器人轨迹</h4>
+                  <p>以起点—终点标记一次完整往返，记录转向、回环与局部重规划过程中的位姿输出。</p>
+                </div>
+                <span class="fig__meta">EKF ODOM · 1200×900</span>
+              </figcaption>
+            </figure>
+
+            <figure class="fig fig--dark">
+              <button class="fig__view" type="button" data-figure aria-label="放大查看 RViz 实时建图与代价地图">
+                <img src="assets/img/ros-costmap-rviz.png" alt="RViz 中实时构建的栅格地图与多层代价地图膨胀区域" width="1349" height="915" loading="eager" decoding="async">
+                <span class="fig__zoom" aria-hidden="true">↗</span>
+              </button>
+              <figcaption class="fig__cap">
+                <span class="fig__no">FIG. 03</span>
+                <div class="fig__text">
+                  <h4>RViz 实时建图与代价地图</h4>
+                  <p>激光点云叠加栅格地图，青紫轮廓为障碍物膨胀层，供 Nav2 全局规划与 DWB 局部避障使用。</p>
+                </div>
+                <span class="fig__meta">RVIZ / COSTMAP · 1349×915</span>
+              </figcaption>
+            </figure>
           </div>
         </div>
       </div>
@@ -463,6 +524,24 @@
           <ul class="tags" id="modalStack"></ul>
         </div>
         <a class="modal__demo" id="modalDemoLink" href="#demo" hidden>▶ 观看实机演示视频 <span aria-hidden="true">↗</span></a>
+        <a class="modal__demo" id="modalFiguresLink" href="#figures" hidden>▦ 查看实验数据图集 <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ FIGURE LIGHTBOX ============ -->
+  <div class="lightbox" id="figureLightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="lbTitle">
+    <div class="lightbox__backdrop" data-lb-close></div>
+    <div class="lightbox__panel" role="document">
+      <div class="lightbox__bar">
+        <span class="lightbox__no" id="lbIndex">FIG. 01</span>
+        <h4 id="lbTitle">实验数据</h4>
+        <button class="lightbox__close" type="button" data-lb-close aria-label="关闭大图">✕</button>
+      </div>
+      <div class="lightbox__stage"><img id="lbImage" alt=""></div>
+      <div class="lightbox__foot">
+        <span id="lbNote"></span>
+        <a id="lbOpen" href="#" target="_blank" rel="noopener">在新窗口打开原图 <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </div>
