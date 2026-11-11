@@ -1,9 +1,12 @@
 /* =========================================================
    陈靖明 / Portfolio 2026 — 交互脚本
    原生 JS，无第三方依赖
+   V1.2：新增 5 项目详情、按项目分组的左右箭头轮播、灯箱联动
    ========================================================= */
 (function () {
   'use strict';
+
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
 
   /* ---------- 项目详情数据（后续替换真实内容只改这里） ---------- */
   const PROJECTS = [
@@ -19,7 +22,7 @@
         'IMU 姿态解算配合串级 PID（位置外环 + 速度内环）闭环稳定',
         '板载按键实时切换「定高定点悬停 / 普通」双模式'
       ],
-      stack: ['C 语言', 'Keil5', '立创 EDA', '串口调试助手', 'nRF24L01', 'GPIO', 'PWM', 'UART', 'SPI', 'IIC', 'ADC', 'PID']
+      stack: ['C 语言', 'Keil 5', '立创 EDA', '串口调试助手', 'nRF24L01', 'GPIO', 'PWM', 'UART', 'SPI', 'IIC', 'ADC', 'PID']
     },
     {
       index: '02 / PROJECT',
@@ -33,22 +36,52 @@
         'FreeRTOS 多任务划分：遥控解析 / 运动学解算 / CAN 收发 / 状态反馈',
         'CAN 总线闭环 + PID 调参，优化动态响应与稳态精度'
       ],
-      stack: ['C 语言', 'CubeMX', 'Keil5', '立创 EDA', 'STM32F407', 'FreeRTOS', 'CAN', 'UART', 'SBUS', 'PID', '四层 PCB']
+      stack: ['C 语言', 'CubeMX', 'Keil 5', '立创 EDA', 'STM32F407', 'FreeRTOS', 'CAN', 'UART', 'SBUS', 'PID', '四层 PCB']
     },
     {
       index: '03 / PROJECT',
-      date: '2025.11 — 2026',
-      title: 'ROS2 自主导航无人车平台',
+      date: '2025.11 — 2026.05',
+      title: 'ROS 自主移动机器人平台',
       en: 'ROS2 / NAV2 / SLAM · FULL STACK',
-      arch: '本项目面向移动机器人平台，分别实现三轮全向轮与两轮差速两种底盘构型。下位机采用 STM32F4，负责实时运动学逆解，将期望速度指令解算为各直流编码电机的转速并驱动电机运转；同时采集编码器反馈，经运动学正解得到实际车体速度，结合 ADC 采样的电池电压以及 MPU6050 姿态数据，通过串口一并上传至中位机（树莓派）。树莓派作为上层决策核心，接收来自远端 PC 的控制指令并向下转发或执行高级任务；PC 端实现仿真环境下的算法验证、SLAM 建图及远程监控，形成「下位机执行—中位机调度—上位机规划」的完整闭环系统。',
+      arch: '搭建「STM32F4 下位机 — 树莓派中位机 — PC 上位机」三级架构。下位机完成三轮全向轮与两轮差速两种底盘的运动学逆解、编码器正解与直流编码电机驱动，并上传里程计、ADC 电池电压与 MPU6050 姿态数据。定位采用两级 EKF：下位机融合编码器 + IMU 输出本体里程计，上位机以 robot_localization（50Hz EKF）二次融合轮速与陀螺仪抗漂移，再由激光 SLAM 提供 map→odom 全局校正。迁移至 ROS2 后重写全向运动学，集成 slam_toolbox 异步建图、Nav2（NavFn + DWB）与多层 Costmap，以行为树驱动 Spin / BackUp 恢复行为。',
       highlights: [
-        '两级融合架构：下位机 EKF 融合编码器 + IMU 输出本体里程计；上位机 robot_localization（50Hz EKF）二次融合抗漂移',
+        '两级融合架构：下位机 EKF 输出本体里程计；上位机 robot_localization（50Hz EKF）二次融合抗漂移',
         '激光 SLAM 提供 map→odom 全局校正，消除长期累积误差',
         'ROS2 全栈导航：重写全向运动学、slam_toolbox 异步建图、Nav2（NavFn 全局 + DWB 局部）、多层 Costmap',
         '行为树驱动 Spin / BackUp 恢复行为，支持无先验地图动态避障与在线重规划',
         '自研 N10 激光雷达驱动包，完成协议解析与坐标变换，封装为标准 /scan 话题'
       ],
-      stack: ['CubeIDE', '立创 EDA', 'C', 'Python', 'ROS2', 'Nav2', 'SLAM', 'EKF', 'slam_toolbox', 'PWM', 'UART', 'IIC']
+      stack: ['C', 'Python', 'CubeIDE', '立创 EDA', 'ROS2', 'Nav2', 'SLAM', 'EKF', 'slam_toolbox', 'PWM', 'UART', 'IIC']
+    },
+    {
+      index: '04 / PROJECT',
+      date: '2026.06 — 2026.07',
+      title: '远程 IO 模块（Modbus TCP/RTU）',
+      en: 'STM32F103 · MODBUS TCP / RTU + RS485',
+      arch: '设计并实现一款支持 Modbus TCP/RTU 双协议的远程 IO 模块，具备 8 路隔离数字输入、6 路隔离数字输出和模拟量采集能力，支持拨码配置与 10ms 周期 IO 扫描。硬件基于立创 EDA 完成原理图与 PCB 设计：数字输入采用双向光耦隔离、数字输出经光耦隔离，通过 I2C 读取 ADS1115 实现 16 位模拟量采样；板上集成 RS485、以太网、TTL 串口及预留 I2C 接口，拨码开关可配置站号、波特率及 120Ω 终端电阻使能。固件基于 FreeRTOS 创建三个任务，并设计统一寄存器映射让 TCP 与 RTU 通道共享 IO 数据。',
+      highlights: [
+        '8DI / 6DO 全光耦隔离 + ADS1115（I2C）模拟量采集，原理图与 PCB 独立完成',
+        'RS485 / 以太网 / TTL 三通道接入，拨码配置站号、波特率与 120Ω 终端电阻',
+        'FreeRTOS 三任务：Modbus RTU/TCP 双模式协议栈、10ms 周期 IO 扫描与执行、系统监控与看门狗喂狗',
+        '统一寄存器映射实现 TCP 与 RTU 通道间的 IO 数据共享',
+        '完成 RS485 / 以太网 / TTL 联调与 IO 读写验证（Modbus Poll 实测）'
+      ],
+      stack: ['C', 'FreeRTOS', 'STM32F103', 'Modbus TCP/RTU', 'RS485', 'UART', 'I2C', 'SPI', 'ADS1115', '立创 EDA', '光耦隔离']
+    },
+    {
+      index: '05 / PROJECT',
+      date: '2026.09 — 2026.11',
+      title: 'MoveIt2 机械臂运动规划及无线遥控系统',
+      en: 'ROS2 / MOVEIT2 · STM32 + BT24W + APP',
+      arch: '采用「MoveIt2 上位机运动规划 — STM32 下位机舵机控制 — BT24W 无线通信 — APP 遥控」架构，实现机械臂自动规划、关节控制、双摇杆手动控制、力矩释放及舵机角度实时回传。上位机基于 ROS2 / MoveIt2 完成 URDF、SRDF、规划组与末端配置，支持关节空间与笛卡尔空间运动规划及 RViz / Gazebo 仿真验证；下位机 STM32 通过 UART 按众灵串口总线舵机协议封装角度设置、角度回读、力矩释放指令，按舵机 ID 完成多关节控制；BT24W 无线串口负责 APP 指令下发与状态回传。',
+      highlights: [
+        'MoveIt2 完成 URDF / SRDF 建模、规划组与末端配置，关节空间 + 笛卡尔空间规划与仿真验证',
+        'STM32 通过 UART 封装众灵舵机协议：角度设置 / 角度回读 / 力矩释放，按 ID 多关节控制',
+        'BT24W 无线串口接收 APP 指令，完成解析、关节映射与协议包下发',
+        'APP 多模式控制：单关节、双摇杆分别控制上组 / 下组各 2 个舵机、释放力矩便于示教',
+        '舵机角度经 STM32 回包或周期回读后由 BT24W 上报，APP 实时显示角度与运行状态'
+      ],
+      stack: ['C++', 'Python', 'ROS2', 'MoveIt2', 'URDF / SRDF', 'RViz / Gazebo', 'SolidWorks', 'STM32', 'FreeRTOS / 裸机', 'UART', 'BT24W', '众灵串口总线舵机', 'APP 遥控']
     }
   ];
 
@@ -110,7 +143,7 @@
   const modalHighlights = document.getElementById('modalHighlights');
   const modalStack = document.getElementById('modalStack');
   const modalDemoLink = document.getElementById('modalDemoLink');
-  const modalFiguresLink = document.getElementById('modalFiguresLink');
+  const modalGalleryLink = document.getElementById('modalGalleryLink');
   const closeBtn = modal.querySelector('.modal__close');
   let lastFocused = null;
 
@@ -136,8 +169,9 @@
       li.textContent = text;
       modalStack.appendChild(li);
     });
-    modalDemoLink.hidden = (i !== 2);     // 仅项目 03 有实机演示视频
-    modalFiguresLink.hidden = (i !== 2);  // 仅项目 03 有实验数据图集
+    modalDemoLink.hidden = (i !== 2);                              // 仅项目 03 有实机演示视频
+    modalGalleryLink.hidden = false;                               // 5 个项目都有图集组
+    modalGalleryLink.setAttribute('data-gallery-jump', String(i));
     modal.querySelector('.modal__panel').scrollTop = 0;
   }
 
@@ -156,7 +190,7 @@
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
-    // 跳转到 #demo 时不回焦，避免焦点滚动打断锚点定位
+    // 跳转到 #demo / #gallery 时不回焦，避免焦点滚动打断锚点定位
     if (!skipFocus && lastFocused && typeof lastFocused.focus === 'function') lastFocused.focus();
   }
 
@@ -178,10 +212,6 @@
     el.addEventListener('click', function () { closeModal(); });
   });
   modalDemoLink.addEventListener('click', function () { closeModal(true); });
-  modalFiguresLink.addEventListener('click', function () { closeModal(true); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeModal();
-  });
 
   /* ---------- 实机演示视频：点击后才加载，避免拖慢首屏 ---------- */
   const player = document.getElementById('demoPlayer');
@@ -201,7 +231,115 @@
     video.addEventListener('error', function () { player.classList.remove('is-playing'); });
   }
 
-  /* ---------- 实验数据图集：点击放大（复用原图 URL，不重复下载） ---------- */
+  /* =========================================================
+     按项目分组的图片轮播
+     每个 .gset 独立维护 index；数据全部来自 slide 的 data-* 属性
+     ========================================================= */
+  function initSet(root) {
+    const slides = Array.prototype.slice.call(root.querySelectorAll('.gslide'));
+    const count = slides.length;
+    const currentEl = root.querySelector('[data-gset-current]');
+    const totalEl = root.querySelector('[data-gset-total]');
+    const idxEl = root.querySelector('[data-gset-idx]');
+    const titleEl = root.querySelector('[data-gset-title]');
+    const descEl = root.querySelector('[data-gset-desc]');
+    const dotsEl = root.querySelector('[data-gset-dots]');
+    const prevBtn = root.querySelector('[data-gset-prev]');
+    const nextBtn = root.querySelector('[data-gset-next]');
+    const stage = root.querySelector('.gset__stage');
+    let index = 0;
+
+    const dots = [];
+    for (let n = 0; n < count; n++) {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'gset__dot';
+      b.setAttribute('aria-label', '跳到第 ' + (n + 1) + ' 张');
+      b.addEventListener('click', function () { goTo(n); });
+      dotsEl.appendChild(b);
+      dots.push(b);
+    }
+
+    function render() {
+      slides.forEach(function (slide, n) {
+        const on = n === index;
+        slide.classList.toggle('is-active', on);
+        slide.setAttribute('aria-hidden', on ? 'false' : 'true');
+        const btn = slide.querySelector('.gslide__view');
+        if (btn) btn.tabIndex = on ? 0 : -1;
+      });
+      dots.forEach(function (d, n) {
+        d.classList.toggle('is-active', n === index);
+        if (n === index) d.setAttribute('aria-current', 'true');
+        else d.removeAttribute('aria-current');
+      });
+      const s = slides[index];
+      currentEl.textContent = pad(index + 1);
+      idxEl.textContent = s.getAttribute('data-no') || pad(index + 1);
+      titleEl.textContent = s.getAttribute('data-title') || '';
+      descEl.textContent = s.getAttribute('data-desc') || '';
+    }
+
+    function goTo(n) { index = ((n % count) + count) % count; render(); }
+    function step(d) { goTo(index + d); }
+
+    prevBtn.addEventListener('click', function () { step(-1); });
+    nextBtn.addEventListener('click', function () { step(1); });
+
+    if (count < 2) {
+      root.classList.add('is-single');
+      prevBtn.disabled = true;
+      nextBtn.disabled = true;
+      dotsEl.hidden = true;
+    }
+
+    // 键盘左右键（stage 或其内部按钮获得焦点时）
+    stage.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1); }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); step(1); }
+    });
+
+    // 触摸滑动（移动端降级体验）
+    let touchX = null;
+    stage.addEventListener('touchstart', function (e) {
+      touchX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    stage.addEventListener('touchend', function (e) {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      if (Math.abs(dx) > 45) step(dx < 0 ? 1 : -1);
+      touchX = null;
+    }, { passive: true });
+
+    totalEl.textContent = pad(count);
+    render();
+
+    return {
+      root: root, slides: slides, count: count,
+      step: step, goTo: goTo,
+      current: function () { return slides[index]; },
+      getIndex: function () { return index; }
+    };
+  }
+
+  const sets = Array.prototype.slice.call(document.querySelectorAll('.gset')).map(initSet);
+
+  /* ---------- 项目卡片 / 弹层 → 跳到对应图集组 ---------- */
+  document.addEventListener('click', function (e) {
+    const a = e.target && e.target.closest ? e.target.closest('[data-gallery-jump]') : null;
+    if (!a) return;
+    const set = sets[Number(a.getAttribute('data-gallery-jump'))];
+    if (!set) return;
+    e.preventDefault();
+    if (modal.classList.contains('is-open')) closeModal(true);
+    set.root.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    set.root.classList.add('is-targeted');
+    window.setTimeout(function () { set.root.classList.remove('is-targeted'); }, 1800);
+  });
+
+  /* =========================================================
+     灯箱：复用当前轮播 slide 的原图 URL，不重复下载
+     ========================================================= */
   const lightbox = document.getElementById('figureLightbox');
   const lbImage = document.getElementById('lbImage');
   const lbIndex = document.getElementById('lbIndex');
@@ -209,20 +347,36 @@
   const lbNote = document.getElementById('lbNote');
   const lbOpen = document.getElementById('lbOpen');
   const lbClose = lightbox.querySelector('.lightbox__close');
+  const lbPrev = lightbox.querySelector('[data-lb-prev]');
+  const lbNext = lightbox.querySelector('[data-lb-next]');
   let lbLastFocused = null;
+  let lbSet = null;
 
-  function openLightbox(btn) {
-    const img = btn.querySelector('img');
-    const fig = btn.closest('.fig');
-    if (!img || !fig) return;
-    lbLastFocused = document.activeElement;
+  function fillLightbox(slide, set) {
+    const img = slide.querySelector('img');
+    if (!img) return;
     const src = img.currentSrc || img.src;
     lbImage.src = src;
     lbImage.alt = img.alt;
     lbOpen.href = src;
-    lbIndex.textContent = fig.querySelector('.fig__no').textContent.trim();
-    lbTitle.textContent = fig.querySelector('.fig__text h4').textContent.trim();
-    lbNote.textContent = fig.querySelector('.fig__meta').textContent.trim() + ' · ESC 关闭';
+    lbIndex.textContent = slide.getAttribute('data-no') || 'FIG. 01';
+    lbTitle.textContent = slide.getAttribute('data-title') || '项目图集';
+    lbNote.textContent = (slide.getAttribute('data-note') || '') +
+      ' · ' + pad(set.getIndex() + 1) + ' / ' + pad(set.count) + ' · ESC 关闭';
+    const single = set.count < 2;
+    lbPrev.hidden = single;
+    lbNext.hidden = single;
+  }
+
+  function openLightbox(btn) {
+    const slide = btn.closest('.gslide');
+    const root = btn.closest('.gset');
+    if (!slide || !root) return;
+    const set = sets.filter(function (s) { return s.root === root; })[0];
+    if (!set) return;
+    lbSet = set;
+    lbLastFocused = document.activeElement;
+    fillLightbox(slide, set);
     lightbox.classList.add('is-open');
     lightbox.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
@@ -235,7 +389,14 @@
     lightbox.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
     lbImage.removeAttribute('src');
+    lbSet = null;
     if (lbLastFocused && typeof lbLastFocused.focus === 'function') lbLastFocused.focus();
+  }
+
+  function lbStep(d) {
+    if (!lbSet || lbSet.count < 2) return;
+    lbSet.step(d);
+    fillLightbox(lbSet.current(), lbSet);
   }
 
   document.querySelectorAll('[data-figure]').forEach(function (btn) {
@@ -244,7 +405,14 @@
   lightbox.querySelectorAll('[data-lb-close]').forEach(function (el) {
     el.addEventListener('click', closeLightbox);
   });
+  lbPrev.addEventListener('click', function () { lbStep(-1); });
+  lbNext.addEventListener('click', function () { lbStep(1); });
+
+  /* ---------- 全局键盘：Esc 关闭 / 灯箱内左右翻页 ---------- */
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'Escape') { closeModal(); closeLightbox(); return; }
+    if (!lightbox.classList.contains('is-open')) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); lbStep(-1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); lbStep(1); }
   });
 })();

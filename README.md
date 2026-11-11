@@ -6,10 +6,10 @@
 
 | 路径 | 说明 |
 | --- | --- |
-| `index.html` | 单页结构：Hero / 关于我 / 精选项目 / 实机演示 / 实验数据 / 个人优势 / 联系页尾 |
+| `index.html` | 单页结构：Hero / 关于我 / 5 个精选项目 / 实机演示 / 项目图集（分组轮播） / 个人优势 / 联系页尾 |
 | `assets/css/style.css` | 全部样式，设计变量集中在 `:root` |
-| `assets/js/main.js` | 导航、滚动动效、项目详情弹层、视频播放器；`PROJECTS` 数组集中管理项目文案 |
-| `assets/img/` | 头像、三张项目技术示意图、视频封面、三张 ROS2 实验数据图（点击可放大） |
+| `assets/js/main.js` | 导航、滚动动效、项目详情弹层、视频播放器、分组轮播与灯箱；`PROJECTS` 数组集中管理项目文案 |
+| `assets/img/` | 头像、5 张项目技术示意图、视频封面、ROS2 实验曲线与 rqt 节点图、远程 IO 板卡与 Modbus 实测、机械臂节点图与 CAD 模型 |
 | `assets/video/ros2-obstacle-avoidance.mp4` | ROS2 避障小车实机演示（1280×720，H.264 + AAC） |
 | `.nojekyll` | 让 GitHub Pages 跳过 Jekyll，直接分发静态文件 |
 | `tools/serve.py` | 本地预览服务器，支持 HTTP Range |
@@ -35,9 +35,18 @@ python3 tools/serve.py 8080     # 自定义端口
 
 Pages 设置：**Settings → Pages → Build and deployment → Deploy from a branch → main / (root)**。
 
+## 项目图集（分组轮播）
+
+`#gallery` 下每个 `<section class="gset" data-gset="N">` 对应一个项目，顺序与项目卡片一致（0–4）：无人机 / 麦轮小车 / ROS2 无人车 / 远程 IO / 机械臂。组内每个 `<figure class="gslide">` 是一张图，标题、说明、规格写在 `data-no`、`data-title`、`data-desc`、`data-note` 上，`img` 必须带真实 `width` / `height`。
+
+新增图片：复制到 `assets/img/`（用英文文件名）→ 在对应组的 `.gset__stage` 内追加一个 `gslide` → 更新 `data-gset-total` 和项目卡片「▦ 项目图集 NN 图」的文案。分页点与计数器由 JS 自动生成。
+
+交互：点击图片两端 `‹ ›` 箭头翻页（循环）、点分页点跳图、键盘左右键、移动端左右滑动；点击图片打开灯箱，灯箱内同样支持左右翻页，Esc / 点遮罩关闭。单图组的箭头自动禁用。
+
 ## 注意事项
 
 - 站内资源全部使用 `assets/...` 相对路径，不要改成 `/assets/...`。
+- **不要给图片加 `loading="lazy"`**：本项目的预览环境里懒加载会显示为空框，全部图片直接加载（合计约 2.2MB）。
 - 视频体积约 14MB，低于 GitHub 单文件 100MB 限制；**不要用 Git LFS 存储**，Pages 不解析 LFS 指针。
 - 视频保持 H.264 + AAC，换成 HEVC/H.265 会导致部分浏览器无法播放。
 - 播放器使用 `preload="none"` + 自定义封面，点击后才加载视频，不影响首屏性能。
