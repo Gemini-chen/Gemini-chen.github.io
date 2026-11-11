@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="1000" height="620" role="img" aria-label="基于 STM32 与 BT24W 的机械臂无线遥控系统链路示意图">
+  <defs>
+    <pattern id="rg1" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#dfe6f1" stroke-width="1"/>
+    </pattern>
+    <pattern id="rg2" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M200 0H0V200" fill="none" stroke="#ccd8ea" stroke-width="1"/>
+    </pattern>
+    <marker id="rar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#1a5cff" stroke-width="1.5"/>
+    </marker>
+    <style>
+      .lbl{font-family:Consolas,Menlo,monospace;font-size:13px;fill:#5a6a80;letter-spacing:.04em}
+      .key{font-family:Consolas,Menlo,monospace;font-size:14px;fill:#0b1016;letter-spacing:.04em}
+      .tiny{font-family:Consolas,Menlo,monospace;font-size:11px;fill:#8c9bb0;letter-spacing:.1em}
+      .ln{fill:none;stroke:#c6d2e3;stroke-width:1.2}
+      .acc{fill:none;stroke:#1a5cff;stroke-width:1.6}
+      .dash{fill:none;stroke:#1a5cff;stroke-width:1.5;stroke-dasharray:7 6}
+      .node{fill:#fff;stroke:#0b1016;stroke-width:1.8}
+      .node-hi{fill:#eaf0ff;stroke:#1a5cff;stroke-width:1.8}
+    </style>
+  </defs>
+
+  <rect width="1000" height="620" fill="#f7f9fc"/>
+  <rect width="1000" height="620" fill="url(#rg1)"/>
+  <rect width="1000" height="620" fill="url(#rg2)"/>
+
+  <text class="key" x="40" y="42">FIG.05 / STM32 + BT24W REMOTE TELEOP</text>
+  <text class="tiny" x="960" y="42" text-anchor="end">REV. 2026 · UART BUS SERVO</text>
+  <line class="ln" x1="40" y1="58" x2="960" y2="58"/>
+  <g class="ln" stroke="#1a5cff"><path d="M40 30v-12h12"/><path d="M960 30v-12h-12"/></g>
+
+  <text class="tiny" x="40" y="92">A — APP / OPERATOR</text>
+  <text class="tiny" x="386" y="92">B — WIRELESS LINK</text>
+  <text class="tiny" x="716" y="92">C — MCU / EXECUTION</text>
+  <g class="ln" stroke-dasharray="3 6"><path d="M366 76v400"/><path d="M696 76v400"/></g>
+
+  <!-- A: APP -->
+  <g>
+    <rect x="40" y="112" width="296" height="248" rx="8" class="node-hi"/>
+    <text class="key" x="58" y="140">APP / MULTI-MODE</text>
+    <text class="tiny" x="58" y="160">MANUAL TELEOPERATION PANEL</text>
+    <line class="ln" x1="58" y1="174" x2="318" y2="174"/>
+    <text class="lbl" x="58" y="202">01  SINGLE JOINT SELECT</text>
+    <text class="lbl" x="58" y="230">02  JOYSTICK-L / J1 + J2</text>
+    <text class="lbl" x="58" y="258">03  JOYSTICK-R / J3 + J4</text>
+    <text class="lbl" x="58" y="286">04  TORQUE RELEASE / TEACH</text>
+    <text class="lbl" x="58" y="314">05  LIVE ANGLE READOUT</text>
+  </g>
+  <g>
+    <rect x="40" y="376" width="296" height="72" rx="6" class="node"/>
+    <text class="key" x="58" y="404">COMMAND FRAME</text>
+    <text class="tiny" x="58" y="424">MODE + JOINT ID + TARGET ANGLE</text>
+  </g>
+
+  <!-- B: BT24W -->
+  <g>
+    <rect x="386" y="112" width="290" height="152" rx="8" class="node"/>
+    <text class="key" x="404" y="140">BT24W / 2.4 GHz</text>
+    <text class="tiny" x="404" y="160">TRANSPARENT UART BRIDGE</text>
+    <line class="ln" x1="404" y1="174" x2="658" y2="174"/>
+    <g class="acc" marker-end="url(#rar)"><path d="M404 206h224"/></g>
+    <text class="tiny" x="404" y="232">DOWNLINK / CMD PACKETS</text>
+    <g class="dash"><path d="M628 246H404"/></g>
+    <text class="tiny" x="404" y="262" fill="#1a5cff">UPLINK / ANGLE + STATUS</text>
+  </g>
+  <g>
+    <rect x="386" y="280" width="290" height="168" rx="8" class="node-hi"/>
+    <text class="key" x="404" y="308">STM32 / FREERTOS</text>
+    <text class="tiny" x="404" y="328">PARSE -&gt; MAP -&gt; ENCAPSULATE</text>
+    <line class="ln" x1="404" y1="342" x2="658" y2="342"/>
+    <text class="lbl" x="404" y="366">FRAME CHECKSUM VERIFY</text>
+    <text class="lbl" x="404" y="392">JOINT ID ROUTING (J1..J4)</text>
+    <text class="lbl" x="404" y="418">ANGLE SET / READ / TORQUE OFF</text>
+  </g>
+
+  <!-- C: bus servos -->
+  <g>
+    <rect x="716" y="112" width="244" height="112" rx="8" class="node"/>
+    <text class="key" x="734" y="140">UART / HALF-DUPLEX</text>
+    <text class="tiny" x="734" y="160">ZHONGLING BUS PROTOCOL</text>
+    <g class="acc" marker-end="url(#rar)"><path d="M734 192h190"/></g>
+    <text class="tiny" x="734" y="214">SHARED SERIAL BUS · MULTI-ID</text>
+  </g>
+  <g>
+    <rect x="716" y="240" width="244" height="208" rx="8" class="node-hi"/>
+    <text class="key" x="734" y="268">SERIAL BUS SERVOS</text>
+    <text class="tiny" x="734" y="288">4 JOINTS / ANGLE FEEDBACK</text>
+    <line class="ln" x1="734" y1="302" x2="942" y2="302"/>
+    <g fill="#fff" stroke="#1a5cff" stroke-width="1.4">
+      <circle cx="758" cy="336" r="17"/><circle cx="806" cy="336" r="17"/>
+      <circle cx="854" cy="336" r="17"/><circle cx="902" cy="336" r="17"/>
+    </g>
+    <g class="tiny" text-anchor="middle" fill="#1a5cff">
+      <text x="758" y="340">J1</text><text x="806" y="340">J2</text>
+      <text x="854" y="340">J3</text><text x="902" y="340">J4</text>
+    </g>
+    <path d="M734 374h208" class="acc" marker-end="url(#rar)"/>
+    <text class="tiny" x="734" y="398">BASE / SHOULDER / ELBOW / WRIST</text>
+    <text class="lbl" x="734" y="426">ANGLE REPLY -&gt; MCU -&gt; APP</text>
+  </g>
+
+  <!-- main flow -->
+  <g class="acc" marker-end="url(#rar)">
+    <path d="M336 200h44"/>
+    <path d="M676 200h34"/>
+    <path d="M836 224v10"/>
+  </g>
+  <path d="M676 376 C 700 376, 700 168, 716 168" class="dash" opacity=".7"/>
+
+  <!-- bottom loop -->
+  <text class="tiny" x="40" y="480">D — CLOSED LOOP / 角度回读闭环</text>
+  <line class="ln" x1="40" y1="494" x2="960" y2="494"/>
+  <g>
+    <rect x="40" y="510" width="920" height="68" rx="6" class="node"/>
+    <text class="tiny" x="58" y="534">SERVO ANGLE -&gt; STM32 PARSE -&gt; BT24W UPLINK -&gt; APP DISPLAY</text>
+    <g class="acc" marker-end="url(#rar)">
+      <path d="M58 558h196"/><path d="M300 558h196"/><path d="M542 558h196"/>
+    </g>
+    <text class="tiny" x="960" y="558" text-anchor="end">MANUAL + TEACH MODE</text>
+  </g>
+  <text class="tiny" x="960" y="600" text-anchor="end">STM32 · FREERTOS · BT24W · UART · 众灵串口总线舵机</text>
+</svg>

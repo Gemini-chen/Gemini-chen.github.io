@@ -732,8 +732,14 @@ body.modal-open { overflow: hidden; }
 .demo__head h3 { margin-top: 12px; font-size: clamp(24px, 2.2vw, 36px); font-weight: 700; letter-spacing: -.035em; }
 .demo__head p { max-width: 420px; padding-bottom: 4px; font-size: 14px; line-height: 1.8; color: var(--ink-3); }
 .demo__grid {
-  display: grid; grid-template-columns: minmax(0, 1.95fr) minmax(0, .85fr);
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px; margin-top: 36px; align-items: stretch;
+}
+/* V1.3 / 两段演示并列，每张卡片 = 播放器 + 说明 */
+.demo-card {
+  display: flex; flex-direction: column; min-width: 0;
+  border: 1px solid var(--line-2); background: var(--bg-soft);
+  scroll-margin-top: calc(var(--nav-h) + 24px);
 }
 
 .player {
@@ -761,6 +767,8 @@ body.modal-open { overflow: hidden; }
   transition: transform .3s var(--ease), box-shadow .3s var(--ease);
 }
 .player__circle svg { width: 30px; height: 30px; margin-left: 4px; }
+/* 机械臂封面是亮色屏幕截图，加一层极淡暗色蒙版保证白色播放控件可读 */
+#demo-arm .player__play { background: rgba(6, 12, 22, .26); }
 .player__play:hover .player__circle { transform: scale(1.08); box-shadow: 0 0 0 20px rgba(255, 255, 255, .14); }
 .player__hint { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: #fff; }
 .player__hint i { font-style: normal; margin-left: 8px; color: #9dc0ff; }
@@ -784,9 +792,8 @@ body.modal-open { overflow: hidden; }
 }
 
 .demo__side {
-  display: flex; flex-direction: column;
-  padding: clamp(26px, 2.4vw, 40px);
-  border: 1px solid var(--line-2); background: var(--bg-soft);
+  display: flex; flex-direction: column; flex: 1;
+  padding: clamp(24px, 2vw, 34px);
 }
 .demo__side-label { font-family: var(--mono); font-size: 10px; letter-spacing: .16em; color: var(--accent); }
 .demo__side h4 { margin-top: 18px; font-size: clamp(19px, 1.5vw, 24px); font-weight: 680; letter-spacing: -.025em; }
@@ -814,7 +821,7 @@ body.modal-open { overflow: hidden; }
 
 /* =========================================================
    PROJECT GALLERY / 分组轮播 + LIGHTBOX
-   V1.2：每个项目一组，左右两端箭头翻页
+   V1.3：6 个项目各成一组，左右两端箭头翻页
    ========================================================= */
 .p-links { display: flex; flex-wrap: wrap; gap: 10px; align-self: flex-start; margin-top: 24px; }
 .p-links .p-demo { margin-top: 0; }
