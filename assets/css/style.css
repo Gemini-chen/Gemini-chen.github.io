@@ -735,7 +735,7 @@ body.modal-open { overflow: hidden; }
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 22px; margin-top: 36px; align-items: stretch;
 }
-/* V1.3 / 两段演示并列，每张卡片 = 播放器 + 说明 */
+/* V1.4 / 四段演示 2×2 并列，每张卡片 = 播放器 + 说明 */
 .demo-card {
   display: flex; flex-direction: column; min-width: 0;
   border: 1px solid var(--line-2); background: var(--bg-soft);
@@ -767,10 +767,11 @@ body.modal-open { overflow: hidden; }
   transition: transform .3s var(--ease), box-shadow .3s var(--ease);
 }
 .player__circle svg { width: 30px; height: 30px; margin-left: 4px; }
-/* 机械臂封面是亮色屏幕截图，加一层极淡暗色蒙版保证白色播放控件可读 */
-#demo-arm .player__play { background: rgba(6, 12, 22, .26); }
+/* 机械臂封面是亮色实拍/截图，加一层极淡暗色蒙版保证白色播放控件可读 */
+#demo-arm .player__play,
+#demo-teleop .player__play { background: rgba(6, 12, 22, .30); }
 .player__play:hover .player__circle { transform: scale(1.08); box-shadow: 0 0 0 20px rgba(255, 255, 255, .14); }
-.player__hint { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: #fff; }
+.player__hint { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; color: #fff; text-shadow: 0 1px 8px rgba(4, 10, 20, .7); }
 .player__hint i { font-style: normal; margin-left: 8px; color: #9dc0ff; }
 .player__frame {
   position: absolute; inset: 14px; z-index: 2;
@@ -821,7 +822,7 @@ body.modal-open { overflow: hidden; }
 
 /* =========================================================
    PROJECT GALLERY / 分组轮播 + LIGHTBOX
-   V1.3：6 个项目各成一组，左右两端箭头翻页
+   V1.4：6 个项目各成一组，左右两端箭头翻页
    ========================================================= */
 .p-links { display: flex; flex-wrap: wrap; gap: 10px; align-self: flex-start; margin-top: 24px; }
 .p-links .p-demo { margin-top: 0; }

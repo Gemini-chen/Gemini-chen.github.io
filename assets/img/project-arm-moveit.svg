@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 620" width="1000" height="620" role="img" aria-label="MoveIt2 机械臂运动学逆解链路：URDF 建模、MoveIt2 逆解规划、ROS2 动作通信与众灵自定义消息包收发，驱动五关节串口总线舵机">
+  <defs>
+    <pattern id="mg1" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#dfe6f1" stroke-width="1"/>
+    </pattern>
+    <pattern id="mg2" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M200 0H0V200" fill="none" stroke="#ccd8ea" stroke-width="1"/>
+    </pattern>
+    <marker id="mar" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+      <path d="M1 1L9 5L1 9" fill="none" stroke="#1a5cff" stroke-width="1.5"/>
+    </marker>
+    <style>
+      .lbl{font-family:Consolas,Menlo,monospace;font-size:13px;fill:#5a6a80;letter-spacing:.04em}
+      .key{font-family:Consolas,Menlo,monospace;font-size:14px;fill:#0b1016;letter-spacing:.04em}
+      .tiny{font-family:Consolas,Menlo,monospace;font-size:11px;fill:#8c9bb0;letter-spacing:.1em}
+      .ln{fill:none;stroke:#c6d2e3;stroke-width:1.2}
+      .acc{fill:none;stroke:#1a5cff;stroke-width:1.6}
+      .dash{fill:none;stroke:#1a5cff;stroke-width:1.5;stroke-dasharray:7 6}
+      .node{fill:#fff;stroke:#0b1016;stroke-width:1.8}
+      .node-hi{fill:#eaf0ff;stroke:#1a5cff;stroke-width:1.8}
+    </style>
+  </defs>
+
+  <rect width="1000" height="620" fill="#f7f9fc"/>
+  <rect width="1000" height="620" fill="url(#mg1)"/>
+  <rect width="1000" height="620" fill="url(#mg2)"/>
+
+  <text class="key" x="40" y="42">FIG.06 / MOVEIT2 IK → ROS2 ACTION → CUSTOM MSG</text>
+  <text class="tiny" x="960" y="42" text-anchor="end">REV. 2026 · 5-DOF / URDF</text>
+  <line class="ln" x1="40" y1="58" x2="960" y2="58"/>
+  <g class="ln" stroke="#1a5cff"><path d="M40 30v-12h12"/><path d="M960 30v-12h-12"/></g>
+
+  <text class="tiny" x="40" y="92">A — MODEL / URDF</text>
+  <text class="tiny" x="386" y="92">B — PLANNING / MOVEIT2</text>
+  <text class="tiny" x="716" y="92">C — ROS2 COMMUNICATION</text>
+  <g class="ln" stroke-dasharray="3 6"><path d="M366 76v400"/><path d="M696 76v400"/></g>
+
+  <!-- A: URDF -->
+  <g>
+    <rect x="40" y="112" width="296" height="230" rx="8" class="node-hi"/>
+    <text class="key" x="58" y="140">URDF / SOLIDWORKS</text>
+    <text class="tiny" x="58" y="160">5-DOF LINK + JOINT TREE</text>
+    <line class="ln" x1="58" y1="174" x2="318" y2="174"/>
+    <rect x="58" y="190" width="260" height="40" rx="4" fill="#fff" stroke="#1a5cff" stroke-width="1.2"/>
+    <text class="lbl" x="70" y="216">LINK / JOINT / AXIS LIMIT</text>
+    <rect x="58" y="238" width="260" height="40" rx="4" fill="#fff" stroke="#1a5cff" stroke-width="1.2"/>
+    <text class="lbl" x="70" y="264">COLLISION + VISUAL MESH</text>
+    <rect x="58" y="286" width="260" height="40" rx="4" fill="#fff" stroke="#1a5cff" stroke-width="1.2"/>
+    <text class="lbl" x="70" y="312">TF TREE / BASE → TOOL</text>
+  </g>
+  <g>
+    <rect x="40" y="360" width="296" height="72" rx="6" class="node"/>
+    <text class="key" x="58" y="388">SRDF / PLANNING GROUP</text>
+    <text class="tiny" x="58" y="408">GROUP "arm" + END EFFECTOR</text>
+  </g>
+
+  <!-- B: MoveIt2 -->
+  <g>
+    <rect x="386" y="112" width="290" height="320" rx="8" class="node-hi"/>
+    <text class="key" x="404" y="140">MoveIt2 / IK SOLVER</text>
+    <text class="tiny" x="404" y="160">TARGET POSE → JOINT SOLUTION</text>
+    <line class="ln" x1="404" y1="174" x2="658" y2="174"/>
+    <text class="lbl" x="404" y="200">01  INVERSE KINEMATICS (J1..J5)</text>
+    <text class="lbl" x="404" y="228">02  JOINT SPACE TRAJECTORY</text>
+    <text class="lbl" x="404" y="256">03  CARTESIAN PATH / OMPL</text>
+    <text class="lbl" x="404" y="284">04  COLLISION CHECKING</text>
+    <line class="ln" x1="404" y1="300" x2="658" y2="300"/>
+    <rect x="404" y="312" width="254" height="36" rx="4" fill="#fff" stroke="#1a5cff" stroke-width="1.2"/>
+    <text class="lbl" x="416" y="336">RViz / PLAN &amp; EXECUTE</text>
+    <rect x="404" y="356" width="254" height="36" rx="4" fill="#fff" stroke="#1a5cff" stroke-width="1.2"/>
+    <text class="lbl" x="416" y="380">GOAL STATE / POSE VALIDATION</text>
+  </g>
+  <g>
+    <rect x="386" y="448" width="290" height="28" rx="4" class="node"/>
+    <text class="tiny" x="404" y="467">SOLUTION: JOINT ANGLES J1..J5</text>
+  </g>
+
+  <!-- C: ROS2 -->
+  <g>
+    <rect x="716" y="112" width="244" height="152" rx="8" class="node"/>
+    <text class="key" x="734" y="140">ROS2 ACTION</text>
+    <text class="tiny" x="734" y="160">FollowJointTrajectory</text>
+    <line class="ln" x1="734" y1="174" x2="942" y2="174"/>
+    <text class="lbl" x="734" y="200">GOAL / FEEDBACK / RESULT</text>
+    <text class="lbl" x="734" y="226">TRAJECTORY POINTS → MSG</text>
+    <g class="acc" marker-end="url(#mar)"><path d="M734 248h190"/></g>
+  </g>
+  <g>
+    <rect x="716" y="280" width="244" height="152" rx="8" class="node-hi"/>
+    <text class="key" x="734" y="308">众灵自定义消息包</text>
+    <text class="tiny" x="734" y="328">CUSTOM MSG / PUB + SUB</text>
+    <line class="ln" x1="734" y1="342" x2="942" y2="342"/>
+    <text class="lbl" x="734" y="366">JOINT CMD PUBLISH</text>
+    <text class="lbl" x="734" y="392">/joint_states FEEDBACK</text>
+    <g class="dash"><path d="M940 410H734"/></g>
+    <text class="tiny" x="734" y="426" fill="#1a5cff">SERIAL BUS SERVO DRIVER</text>
+  </g>
+
+  <!-- main flow -->
+  <g class="acc" marker-end="url(#mar)">
+    <path d="M336 200h44"/>
+    <path d="M676 200h34"/>
+    <path d="M836 264v10"/>
+  </g>
+  <path d="M676 462 C 700 462, 700 420, 716 420" class="dash" opacity=".7"/>
+
+  <!-- bottom: pose consistency -->
+  <text class="tiny" x="40" y="490">D — POSE CONSISTENCY / 位姿一致性对照</text>
+  <line class="ln" x1="40" y1="504" x2="960" y2="504"/>
+  <g>
+    <rect x="40" y="518" width="920" height="60" rx="6" class="node"/>
+    <text class="tiny" x="58" y="542">RViz PLANNED POSE  ≡  REAL ARM POSE  ·  轨迹执行 SUCCEEDED · 实物位姿与 RViz 一致</text>
+    <g class="acc" marker-end="url(#mar)"><path d="M58 562h196"/><path d="M300 562h196"/></g>
+    <text class="tiny" x="946" y="562" text-anchor="end">ROS2 ONLY · 5-DOF SERVOS</text>
+  </g>
+  <text class="tiny" x="960" y="600" text-anchor="end">URDF · MoveIt2 · ROS2 ACTION · 众灵自定义消息包 · 5-DOF SERVOS</text>
+</svg>

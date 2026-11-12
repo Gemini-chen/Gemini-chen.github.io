@@ -6,12 +6,14 @@
 
 | 路径 | 说明 |
 | --- | --- |
-| `index.html` | 单页结构：Hero / 关于我 / 6 个精选项目 / 两段并列实机演示 / 项目图集（分组轮播） / 个人优势 / 联系页尾 |
+| `index.html` | 单页结构：Hero / 关于我 / 6 个精选项目 / 四段实机演示（2×2）/ 项目图集（分组轮播）/ 个人优势 / 联系页尾 |
 | `assets/css/style.css` | 全部样式，设计变量集中在 `:root` |
-| `assets/js/main.js` | 导航、滚动动效、项目详情弹层、双视频播放器、分组轮播与灯箱；`PROJECTS` 数组集中管理项目文案 |
-| `assets/img/` | 头像、6 张项目技术示意图、两段视频封面、ROS2 实验曲线与 rqt 节点图、麦轮小车四层板 / 电源板 PCB、远程 IO 板卡与 Modbus 实测、机械臂节点图 / CAD / 协议帧 |
+| `assets/js/main.js` | 导航、滚动动效、项目详情弹层、多视频播放器、分组轮播与灯箱；`PROJECTS` 数组集中管理项目文案 |
+| `assets/img/` | 头像、6 张项目技术示意图、4 张视频封面、ROS2 实验曲线与 rqt 节点图、麦轮小车四层板 / 电源板 PCB、远程 IO 板卡与 Modbus 实测、机械臂节点图 / CAD / 协议帧 / 实机截帧 |
 | `assets/video/ros2-obstacle-avoidance.mp4` | ROS2 避障小车实机演示（01:46，1280×720，H.264 + AAC，14.0MB） |
-| `assets/video/arm-motion-demo.mp4` | 机械臂 MoveIt2 逆解与轨迹规划运行实录（00:50，1280×720，H.264 + AAC，36.9MB） |
+| `assets/video/arm-bt24w-teleop.mp4` | 项目 05 · BT24W 双摇杆遥控五关节机械臂（01:34，1280×720，H.264 + AAC，17.9MB） |
+| `assets/video/arm-moveit2-physical.mp4` | 项目 06 · MoveIt2 逆解驱动的实物机械臂，位姿与 RViz 一致（00:44，720×1280 竖屏，H.264 + AAC，9.6MB） |
+| `assets/video/arm-motion-demo.mp4` | 项目 06 · RViz 逆解与轨迹规划对照录屏（00:50，1280×720，H.264 + AAC，36.9MB） |
 | `.nojekyll` | 让 GitHub Pages 跳过 Jekyll，直接分发静态文件 |
 | `tools/serve.py` | 本地预览服务器，支持 HTTP Range |
 
@@ -38,17 +40,23 @@ Pages 设置：**Settings → Pages → Build and deployment → Deploy from a b
 
 ## 项目图集（分组轮播）
 
-`#gallery` 下每个 `<section class="gset" data-gset="N">` 对应一个项目，顺序与项目卡片一致（0–5）：无人机 / 麦轮小车 / ROS2 无人车 / 远程 IO / STM32 机械臂遥控 / MoveIt2 运动学逆解。全站共 6 组 21 张图。组内每个 `<figure class="gslide">` 是一张图，标题、说明、规格写在 `data-no`、`data-title`、`data-desc`、`data-note` 上，`img` 必须带真实 `width` / `height`。
+`#gallery` 下每个 `<section class="gset" data-gset="N">` 对应一个项目，顺序与项目卡片一致（0–5）：无人机 / 麦轮小车 / ROS2 无人车 / 远程 IO / STM32 机械臂遥控 / MoveIt2 运动学逆解。全站共 6 组 23 张图。组内每个 `<figure class="gslide">` 是一张图，标题、说明、规格写在 `data-no`、`data-title`、`data-desc`、`data-note` 上，`img` 必须带真实 `width` / `height`。
 
 新增图片：复制到 `assets/img/`（用英文文件名）→ 在对应组的 `.gset__stage` 内追加一个 `gslide` → 更新 `data-gset-total` 和项目卡片「▦ 项目图集 NN 图」的文案。分页点与计数器由 JS 自动生成。
 
 交互：点击图片两端 `‹ ›` 箭头翻页（循环）、点分页点跳图、键盘左右键、移动端左右滑动；点击图片打开灯箱，灯箱内同样支持左右翻页，Esc / 点遮罩关闭。单图组的箭头自动禁用。
 
+## 项目边界（重要）
+
+- **项目 05「STM32 机械臂无线遥控系统」**：APP 双摇杆 → BT24W 无线串口 → STM32 帧校验 / J1–J5 关节映射 → 众灵串口总线舵机协议 → 五关节舵机，含角度回读。
+- **项目 06「MoveIt2 机械臂运动学逆解」**：**只涉及 ROS2 侧**，SolidWorks 五自由度模型 → URDF / SRDF → MoveIt2 逆解与轨迹规划 → ROS2 动作通信（FollowJointTrajectory）→ 众灵自定义消息包 pub / sub → 实物舵机；**不涉及 STM32、BT24W 与 APP**。
+- 机械臂为 **5 个关节（J1–J5）**，所有示意图、协议帧图、弹层文案与图集说明统一按五关节表述。
+
 ## 注意事项
 
 - 站内资源全部使用 `assets/...` 相对路径，不要改成 `/assets/...`。
-- **不要给图片加 `loading="lazy"`**：本项目的预览环境里懒加载会显示为空框，全部图片直接加载（合计约 2.6MB）。
-- 两段视频合计约 51MB，单文件最大 36.9MB，低于 GitHub 单文件 100MB 限制；**不要用 Git LFS 存储**，Pages 不解析 LFS 指针。
-- 视频保持 H.264 + AAC，换成 HEVC/H.265 会导致部分浏览器无法播放。
-- 播放器使用 `preload="none"` + 自定义封面，点击后才加载视频，不影响首屏性能；播放其中一段会自动暂停另一段。
-- 实机演示区为两张 `.demo-card` 并列，锚点分别是 `#demo-ros` / `#demo-arm`；项目弹层通过 `PROJECTS[i].demo` 决定演示链接。
+- **不要给图片加 `loading="lazy"`**：本项目的预览环境里懒加载会显示为空框，全部图片直接加载（合计约 4.0MB）。
+- 四段视频合计约 78MB，单文件最大 36.9MB，低于 GitHub 单文件 100MB 限制；**不要用 Git LFS 存储**，Pages 不解析 LFS 指针。
+- 视频必须是 **H.264 + AAC**：微信导出的竖屏实物视频原始编码为 HEVC/H.265（hvc1），本地播放器与浏览器都打不开，已用 `libx264` 转成 `arm-moveit2-physical.mp4`。新增视频前先确认编码，保持 `moov` 在文件头部（faststart）。
+- 播放器使用 `preload="none"` + 自定义封面，点击后才加载视频，不影响首屏性能；播放其中一段会自动暂停其余三段。竖屏视频靠 `.player video { object-fit: contain }` 在 16:9 舞台内完整显示。
+- 实机演示区为 4 张 `.demo-card`（PC 2×2、≤1100px 单列），锚点分别为 `#demo-ros` / `#demo-teleop` / `#demo-arm` / `#demo-rviz`；项目弹层通过 `PROJECTS[i].demo` 与 `demo2` 决定演示链接。

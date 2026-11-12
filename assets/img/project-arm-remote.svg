@@ -41,9 +41,9 @@
     <text class="key" x="58" y="140">APP / MULTI-MODE</text>
     <text class="tiny" x="58" y="160">MANUAL TELEOPERATION PANEL</text>
     <line class="ln" x1="58" y1="174" x2="318" y2="174"/>
-    <text class="lbl" x="58" y="202">01  SINGLE JOINT SELECT</text>
-    <text class="lbl" x="58" y="230">02  JOYSTICK-L / J1 + J2</text>
-    <text class="lbl" x="58" y="258">03  JOYSTICK-R / J3 + J4</text>
+    <text class="lbl" x="58" y="202">01  SINGLE JOINT / J1..J5</text>
+    <text class="lbl" x="58" y="230">02  JOYSTICK-L / UPPER GROUP</text>
+    <text class="lbl" x="58" y="258">03  JOYSTICK-R / LOWER GROUP</text>
     <text class="lbl" x="58" y="286">04  TORQUE RELEASE / TEACH</text>
     <text class="lbl" x="58" y="314">05  LIVE ANGLE READOUT</text>
   </g>
@@ -70,7 +70,7 @@
     <text class="tiny" x="404" y="328">PARSE -&gt; MAP -&gt; ENCAPSULATE</text>
     <line class="ln" x1="404" y1="342" x2="658" y2="342"/>
     <text class="lbl" x="404" y="366">FRAME CHECKSUM VERIFY</text>
-    <text class="lbl" x="404" y="392">JOINT ID ROUTING (J1..J4)</text>
+    <text class="lbl" x="404" y="392">JOINT ID ROUTING (J1..J5)</text>
     <text class="lbl" x="404" y="418">ANGLE SET / READ / TORQUE OFF</text>
   </g>
 
@@ -85,18 +85,20 @@
   <g>
     <rect x="716" y="240" width="244" height="208" rx="8" class="node-hi"/>
     <text class="key" x="734" y="268">SERIAL BUS SERVOS</text>
-    <text class="tiny" x="734" y="288">4 JOINTS / ANGLE FEEDBACK</text>
+    <text class="tiny" x="734" y="288">5 JOINTS / ANGLE FEEDBACK</text>
     <line class="ln" x1="734" y1="302" x2="942" y2="302"/>
     <g fill="#fff" stroke="#1a5cff" stroke-width="1.4">
-      <circle cx="758" cy="336" r="17"/><circle cx="806" cy="336" r="17"/>
-      <circle cx="854" cy="336" r="17"/><circle cx="902" cy="336" r="17"/>
+      <circle cx="748" cy="336" r="14"/><circle cx="790" cy="336" r="14"/>
+      <circle cx="832" cy="336" r="14"/><circle cx="874" cy="336" r="14"/>
+      <circle cx="916" cy="336" r="14"/>
     </g>
     <g class="tiny" text-anchor="middle" fill="#1a5cff">
-      <text x="758" y="340">J1</text><text x="806" y="340">J2</text>
-      <text x="854" y="340">J3</text><text x="902" y="340">J4</text>
+      <text x="748" y="340">J1</text><text x="790" y="340">J2</text>
+      <text x="832" y="340">J3</text><text x="874" y="340">J4</text>
+      <text x="916" y="340">J5</text>
     </g>
     <path d="M734 374h208" class="acc" marker-end="url(#rar)"/>
-    <text class="tiny" x="734" y="398">BASE / SHOULDER / ELBOW / WRIST</text>
+    <text class="tiny" x="734" y="398">5-DOF SERIAL BUS / J1..J5</text>
     <text class="lbl" x="734" y="426">ANGLE REPLY -&gt; MCU -&gt; APP</text>
   </g>
 

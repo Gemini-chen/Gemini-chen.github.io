@@ -82,22 +82,25 @@
   </g>
 
   <!-- joint map -->
-  <text class="tiny" x="40" y="444">C — JOINT MAPPING / APP 摇杆到舵机 ID</text>
+  <text class="tiny" x="40" y="444">C — JOINT MAPPING / APP 摇杆到 5 个舵机 ID</text>
   <g>
     <rect x="40" y="458" width="920" height="92" rx="8" class="node"/>
     <g class="cell">
-      <rect x="64" y="478" width="180" height="52"/>
-      <rect x="290" y="478" width="180" height="52" class="node-hi"/>
-      <rect x="516" y="478" width="180" height="52"/>
-      <rect x="742" y="478" width="194" height="52" class="node-hi"/>
+      <rect x="64" y="478" width="160" height="52"/>
+      <rect x="242" y="478" width="160" height="52" class="node-hi"/>
+      <rect x="420" y="478" width="160" height="52"/>
+      <rect x="598" y="478" width="160" height="52" class="node-hi"/>
+      <rect x="776" y="478" width="160" height="52"/>
     </g>
     <g class="key" text-anchor="middle">
-      <text x="154" y="500">J1 / BASE</text><text x="380" y="500">J2 / SHOULDER</text>
-      <text x="606" y="500">J3 / ELBOW</text><text x="839" y="500">J4 / WRIST</text>
+      <text x="144" y="500">J1 / BASE</text><text x="322" y="500">J2 / SHOULDER</text>
+      <text x="500" y="500">J3 / ELBOW</text><text x="678" y="500">J4 / WRIST</text>
+      <text x="856" y="500">J5 / TOOL</text>
     </g>
     <g class="tiny" text-anchor="middle">
-      <text x="154" y="520">ID 01 · JOYSTICK-L X</text><text x="380" y="520">ID 02 · JOYSTICK-L Y</text>
-      <text x="606" y="520">ID 03 · JOYSTICK-R X</text><text x="839" y="520">ID 04 · JOYSTICK-R Y</text>
+      <text x="144" y="520">ID 01 · JOINT 1</text><text x="322" y="520">ID 02 · JOINT 2</text>
+      <text x="500" y="520">ID 03 · JOINT 3</text><text x="678" y="520">ID 04 · JOINT 4</text>
+      <text x="856" y="520">ID 05 · JOINT 5</text>
     </g>
   </g>
   <g class="acc" marker-end="url(#sar)"><path d="M40 574h920"/></g>

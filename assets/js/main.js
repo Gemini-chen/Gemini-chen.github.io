@@ -1,7 +1,7 @@
 /* =========================================================
    陈靖明 / Portfolio 2026 — 交互脚本
    原生 JS，无第三方依赖
-   V1.3：6 项目详情（机械臂拆分为 STM32 遥控 / MoveIt2 逆解）、两段并列实机演示、分组轮播与灯箱联动
+   V1.4：4 段并列实机演示、MoveIt2 项目边界修正（仅 ROS2 侧）、五关节图文统一
    ========================================================= */
 (function () {
   'use strict';
@@ -74,32 +74,33 @@
       date: '2026.09 — 2026.11',
       title: 'STM32 机械臂无线遥控系统',
       en: 'STM32 · BT24W + APP TELEOP',
-      arch: '以 STM32 作为机械臂下位机控制核心，BT24W 无线串口负责 APP 指令下发与状态回传，构成「APP 多模式遥控 — BT24W 透明串口 — STM32 协议解析 — 众灵串口总线舵机」链路。STM32 完成指令帧校验、关节 ID 映射，并通过 UART 按众灵协议封装角度设置、角度回读与力矩释放指令，按舵机 ID 驱动多个关节；舵机角度回包后经 BT24W 上报 APP 实时显示。',
+      arch: '以 STM32 作为机械臂下位机控制核心，BT24W 无线串口负责 APP 指令下发与状态回传，构成「APP 双摇杆遥控 — BT24W 透明串口 — STM32 协议解析 — 五关节串口总线舵机」链路。STM32 完成指令帧校验、J1–J5 关节 ID 映射，并通过 UART 按众灵协议封装角度设置、角度回读与力矩释放指令，按舵机 ID 驱动五个关节；舵机角度回包后经 BT24W 上报 APP 实时显示。',
       highlights: [
         'BT24W 无线串口双向链路：APP 指令下行 / 舵机角度与运行状态上行',
-        'STM32 完成帧头、长度与校验和解析，按 J1–J4 舵机 ID 完成关节映射',
+        'STM32 完成帧头、长度与校验和解析，按 J1–J5 五个舵机 ID 完成关节映射',
         'UART 封装众灵串口总线舵机协议：角度设置 / 角度回读 / 力矩释放三类指令',
-        'APP 多模式控制：单关节点动、双摇杆分别控制上组 / 下组各 2 个舵机、力矩释放便于示教',
+        'APP 多模式控制：五关节单独点动、双摇杆分组控制、力矩释放便于示教',
         '角度回读闭环：舵机回包 → STM32 解析 → BT24W 上报 → APP 实时显示'
       ],
-      stack: ['C', 'STM32', 'FreeRTOS / 裸机', 'UART', 'BT24W', '众灵串口总线舵机协议', 'APP 遥控', 'Keil 5', '串口调试助手'],
-      demo: { href: '#demo-arm', label: '▶ 观看机械臂运行实录' }
+      stack: ['C', 'STM32', 'FreeRTOS / 裸机', 'UART', 'BT24W', '众灵串口总线舵机协议', '5 自由度', 'APP 遥控', 'Keil 5', '串口调试助手'],
+      demo: { href: '#demo-teleop', label: '▶ 观看 BT24W 摇杆遥控实机演示' }
     },
     {
       index: '06 / PROJECT',
       date: '2026.09 — 2026.11',
       title: 'MoveIt2 机械臂运动学逆解与轨迹规划',
       en: 'ROS2 / MOVEIT2 · IK + URDF / SRDF',
-      arch: '基于 ROS2 / MoveIt2 搭建机械臂上位机规划链路：按 SolidWorks 三维模型建立 URDF 连杆与关节树、SRDF 规划组 arm 及末端执行器配置，由目标位姿求解运动学逆解，完成关节空间与笛卡尔空间轨迹规划、碰撞检测与 RViz 可视化验证。/moveit_server 节点输出逆解得到的各关节角并转发规划轨迹，通过 /target_joint_position 下发至 STM32 下位机驱动串口总线舵机。',
+      arch: '本项目只在 ROS2 侧完成：按 SolidWorks 五关节模型建立 URDF 连杆 / 关节树、SRDF 规划组 arm 与末端执行器配置，由目标位姿求解运动学逆解，完成关节空间与笛卡尔空间轨迹规划、碰撞检测及 RViz 可视化验证。规划结果通过 ROS2 动作通信（FollowJointTrajectory / Goal · Feedback · Result）下发，再由众灵自定义消息包完成关节指令发布与 /joint_states 状态订阅，驱动串口总线舵机；实物机械臂运动位姿与 RViz 中的规划位姿一致。链路不涉及 STM32 与 BT24W。',
       highlights: [
-        'SolidWorks 实体模型 → URDF 连杆 / 关节树 → SRDF 规划组 arm 与末端配置',
-        '由目标位姿求解逆运动学，终端实时打印 joint1–joint4 逆解角度',
-        '关节空间 / 笛卡尔空间轨迹规划 + 碰撞检测，RViz MotionPlanning 面板可视化验证',
-        'rqt_graph 节点链路：/moveit_server → /target_joint_position、/joint_states → /robot_state_publisher → /tf',
-        'Plan & Execute 运行实录：轨迹执行返回 SUCCEEDED，关节指令交由 STM32 下发舵机'
+        'SolidWorks 五自由度实体模型 → URDF 连杆 / 关节树 → SRDF 规划组 arm 与末端配置',
+        '由目标位姿求解逆运动学解出 J1–J5 关节角，关节空间 / 笛卡尔空间轨迹规划 + 碰撞检测',
+        'ROS2 动作通信：FollowJointTrajectory 的 Goal / Feedback / Result 承载轨迹点',
+        '众灵自定义消息包收发：关节指令发布、/joint_states 反馈订阅，rqt_graph 可验证节点链路',
+        'RViz Plan & Execute 返回 SUCCEEDED，实物机械臂位姿与 RViz 规划位姿一致'
       ],
-      stack: ['C++', 'Python', 'ROS2', 'MoveIt2', 'URDF / SRDF', '逆运动学 / IK', 'OMPL', 'RViz', 'SolidWorks', 'rqt_graph', 'STM32 下位机'],
-      demo: { href: '#demo-arm', label: '▶ 观看机械臂运行实录' }
+      stack: ['C++', 'Python', 'ROS2', 'MoveIt2', 'URDF / SRDF', '逆运动学 / IK', 'OMPL', 'ROS2 Action', '众灵自定义消息包', 'RViz', 'rqt_graph', 'SolidWorks'],
+      demo: { href: '#demo-arm', label: '▶ 观看 MoveIt2 实物运动演示' },
+      demo2: { href: '#demo-rviz', label: '▶ 对照 RViz 规划录屏' }
     }
   ];
 
@@ -161,6 +162,7 @@
   const modalHighlights = document.getElementById('modalHighlights');
   const modalStack = document.getElementById('modalStack');
   const modalDemoLink = document.getElementById('modalDemoLink');
+  const modalDemoLink2 = document.getElementById('modalDemoLink2');
   const modalGalleryLink = document.getElementById('modalGalleryLink');
   const closeBtn = modal.querySelector('.modal__close');
   let lastFocused = null;
@@ -194,6 +196,14 @@
     } else {
       modalDemoLink.hidden = true;
       modalDemoLink.removeAttribute('href');
+    }
+    if (p.demo2) {
+      modalDemoLink2.hidden = false;
+      modalDemoLink2.href = p.demo2.href;
+      modalDemoLink2.innerHTML = p.demo2.label + ' <span aria-hidden="true">↗</span>';
+    } else {
+      modalDemoLink2.hidden = true;
+      modalDemoLink2.removeAttribute('href');
     }
     modalGalleryLink.hidden = false;                               // 6 个项目都有图集组
     modalGalleryLink.setAttribute('data-gallery-jump', String(i));
@@ -237,8 +247,9 @@
     el.addEventListener('click', function () { closeModal(); });
   });
   modalDemoLink.addEventListener('click', function () { closeModal(true); });
+  modalDemoLink2.addEventListener('click', function () { closeModal(true); });
 
-  /* ---------- 实机演示视频：两段并列，点击后才加载，避免拖慢首屏 ---------- */
+  /* ---------- 实机演示视频：四段 2×2 并列，点击后才加载，避免拖慢首屏 ---------- */
   const players = Array.prototype.slice.call(document.querySelectorAll('[data-player]'));
   players.forEach(function (player) {
     const video = player.querySelector('video');

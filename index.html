@@ -40,7 +40,7 @@
     <section class="hero" id="home">
       <div class="hero__grid" aria-hidden="true"></div>
       <div class="hero__glow" aria-hidden="true"></div>
-      <span class="hero__rail" aria-hidden="true">PORTFOLIO — 2026 / V1.3</span>
+      <span class="hero__rail" aria-hidden="true">PORTFOLIO — 2026 / V1.4</span>
 
       <div class="container hero__inner">
         <div class="hero__copy">
@@ -323,11 +323,11 @@
               <div class="project__top"><span class="p-index">05</span><span class="p-date">2026.09 — 2026.11</span></div>
               <h3>STM32 机械臂<br>无线遥控系统</h3>
               <p class="p-en">STM32 · BT24W + APP TELEOP</p>
-              <p class="p-desc">以 STM32 为下位机核心，通过 BT24W 无线串口接收 APP 指令，完成帧校验、关节 ID 映射与众灵串口总线舵机协议封装；支持单关节控制、双摇杆分别控制上/下组舵机、力矩释放示教与舵机角度实时回传。</p>
+              <p class="p-desc">以 STM32 为下位机核心，通过 BT24W 无线串口接收 APP 指令，完成帧校验、J1–J5 关节 ID 映射与众灵串口总线舵机协议封装；支持五个关节单独点动、双摇杆分组控制、力矩释放示教与舵机角度实时回传。</p>
               <ul class="tags"><li>STM32</li><li>FreeRTOS</li><li>BT24W</li><li>UART</li><li>总线舵机</li></ul>
               <div class="p-links">
-                <a class="p-demo" href="#demo-arm">▶ 运行实录 00:50 <span aria-hidden="true">↗</span></a>
-                <a class="p-demo" href="#gallery" data-gallery-jump="4">▦ 项目图集 02 图 <span aria-hidden="true">↗</span></a>
+                <a class="p-demo" href="#demo-teleop">▶ 实机演示 01:34 <span aria-hidden="true">↗</span></a>
+                <a class="p-demo" href="#gallery" data-gallery-jump="4">▦ 项目图集 03 图 <span aria-hidden="true">↗</span></a>
               </div>
               <button class="p-more" type="button" data-open="4">查看技术细节 <span aria-hidden="true">↗</span></button>
             </div>
@@ -336,18 +336,19 @@
           <!-- 06 / MOVEIT2 IK -->
           <article class="project project--feature" data-reveal style="--d:100ms" data-project="5">
             <div class="project__visual">
-              <img src="assets/img/project-arm.svg" alt="基于 MoveIt2 的机械臂运动学逆解与轨迹规划示意图：URDF 建模、关节与笛卡尔空间规划、节点图与舵机执行" decoding="async">
+              <img src="assets/img/project-arm-moveit.svg" alt="MoveIt2 机械臂运动学逆解示意图：URDF 建模、逆解规划、ROS2 动作通信与众灵自定义消息包收发" decoding="async">
               <span class="project__visual-tag">DIAG.06 / IK PIPELINE</span>
             </div>
             <div class="project__body">
               <div class="project__top"><span class="p-index">06</span><span class="p-date">2026.09 — 2026.11</span></div>
               <h3>MoveIt2 机械臂<br>运动学逆解</h3>
               <p class="p-en">ROS2 / MOVEIT2 · IK + URDF</p>
-              <p class="p-desc">基于 ROS2 / MoveIt2 建立 URDF / SRDF 连杆关节树与规划组，配置末端执行器；由目标位姿求运动学逆解，完成关节空间与笛卡尔空间轨迹规划、碰撞检测与 RViz 可视化验证，再由 /moveit_server 下发关节角到 STM32 执行。</p>
-              <ul class="tags"><li>ROS2</li><li>MoveIt2</li><li>URDF / SRDF</li><li>逆运动学</li><li>RViz</li></ul>
+              <p class="p-desc">基于 SolidWorks 五关节模型建立 URDF / SRDF 与规划组，由目标位姿求运动学逆解，完成关节空间与笛卡尔空间轨迹规划、碰撞检测和 RViz 验证；轨迹经 ROS2 动作通信与众灵自定义消息包收发同步到实物机械臂，位姿与 RViz 一致。</p>
+              <ul class="tags"><li>ROS2</li><li>MoveIt2</li><li>URDF / SRDF</li><li>逆运动学</li><li>ROS2 Action</li><li>自定义消息包</li></ul>
               <div class="p-links">
-                <a class="p-demo" href="#demo-arm">▶ 运行实录 00:50 <span aria-hidden="true">↗</span></a>
-                <a class="p-demo" href="#gallery" data-gallery-jump="5">▦ 项目图集 04 图 <span aria-hidden="true">↗</span></a>
+                <a class="p-demo" href="#demo-arm">▶ 实物演示 00:44 <span aria-hidden="true">↗</span></a>
+                <a class="p-demo" href="#demo-rviz">▶ RViz 对照 00:50 <span aria-hidden="true">↗</span></a>
+                <a class="p-demo" href="#gallery" data-gallery-jump="5">▦ 项目图集 05 图 <span aria-hidden="true">↗</span></a>
               </div>
               <button class="p-more" type="button" data-open="5">查看技术细节 <span aria-hidden="true">↗</span></button>
             </div>
@@ -359,9 +360,9 @@
           <div class="demo__head">
             <div>
               <span class="demo__label">02.4 / LIVE DEMO</span>
-              <h3>实机演示 · 两段运行实录</h3>
+              <h3>实机演示 · 四段运行录像</h3>
             </div>
-            <p>左边是 ROS2 自主导航小车的真实跑车录像，右边是机械臂 MoveIt2 逆解与轨迹规划的运行录屏；点击封面即可播放。</p>
+            <p>从 ROS2 自主导航、BT24W 摇杆遥控，到 MoveIt2 逆解驱动的实物机械臂与 RViz 规划对照；点击封面即可播放。</p>
           </div>
 
           <div class="demo__grid">
@@ -396,31 +397,93 @@
               </aside>
             </article>
 
-            <!-- DEMO 02 / ROBOT ARM -->
+            <!-- DEMO 02 / BT24W 摇杆遥控 -->
+            <article class="demo-card" id="demo-teleop">
+              <div class="player" data-player>
+                <div class="player__cover">
+                  <img src="assets/img/arm-teleop-poster.png" alt="BT24W 摇杆遥控实机演示封面：手机 APP 双摇杆界面与桌面上的五关节机械臂" width="1280" height="720">
+                  <button class="player__play" type="button" data-play aria-label="播放 BT24W 摇杆遥控实机演示视频">
+                    <span class="player__circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg></span>
+                    <span class="player__hint">点击播放实机视频 <i>01:34</i></span>
+                  </button>
+                </div>
+                <video controls playsinline preload="none" width="1280" height="720" aria-label="BT24W 摇杆遥控五关节机械臂实机演示">
+                  <source src="assets/video/arm-bt24w-teleop.mp4" type="video/mp4">
+                  你的浏览器不支持 HTML5 视频，可<a href="assets/video/arm-bt24w-teleop.mp4">单独打开视频文件</a>。
+                </video>
+                <span class="player__frame" aria-hidden="true"></span>
+                <span class="player__badge"><i></i> REC / BT24W TELEOP</span>
+              </div>
+              <aside class="demo__side">
+                <span class="demo__side-label">DEMO 02 / PROJECT 05 · STM32 + BT24W</span>
+                <h4>BT24W 摇杆遥控 · 实机演示</h4>
+                <p>手机 APP 双摇杆下发指令，经 BT24W 无线串口到 STM32 完成帧校验与 J1–J5 关节 ID 映射，再按众灵协议驱动五关节串口总线舵机；力矩释放与角度回读同屏可验。</p>
+                <div class="demo__spec">
+                  <div><span>场景</span><b>双摇杆手动遥控 · 力矩释放</b></div>
+                  <div><span>控制</span><b>帧校验 / 关节映射 / UART 协议</b></div>
+                  <div><span>平台</span><b>APP + BT24W + STM32 + 5 关节舵机</b></div>
+                  <div><span>录制</span><b>01:34 · 1280×720 · H.264</b></div>
+                </div>
+                <a class="demo__open" href="assets/video/arm-bt24w-teleop.mp4" target="_blank" rel="noopener">在新窗口打开视频 <span aria-hidden="true">↗</span></a>
+              </aside>
+            </article>
+
+            <!-- DEMO 03 / MoveIt2 实物运动 -->
             <article class="demo-card" id="demo-arm">
               <div class="player" data-player>
                 <div class="player__cover">
-                  <img src="assets/img/arm-demo-poster.png" alt="机械臂 MoveIt2 运动学逆解与轨迹规划运行实录封面：RViz 中的机械臂模型与终端关节角输出" width="1280" height="720">
-                  <button class="player__play" type="button" data-play aria-label="播放机械臂 MoveIt2 运行实录视频">
+                  <img src="assets/img/arm-physical-poster.png" alt="MoveIt2 逆解驱动的实物机械臂录像封面：桌面上的白色五关节机械臂与笔记本规划界面" width="1280" height="720">
+                  <button class="player__play" type="button" data-play aria-label="播放 MoveIt2 实物机械臂运动视频">
                     <span class="player__circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg></span>
-                    <span class="player__hint">点击播放运行实录 <i>00:50</i></span>
+                    <span class="player__hint">点击播放实物视频 <i>00:44</i></span>
                   </button>
                 </div>
-                <video controls playsinline preload="none" width="1280" height="720" aria-label="机械臂 MoveIt2 运动学逆解与轨迹规划运行实录">
+                <video controls playsinline preload="none" width="720" height="1280" aria-label="MoveIt2 逆解驱动的实物机械臂运动，位姿与 RViz 一致">
+                  <source src="assets/video/arm-moveit2-physical.mp4" type="video/mp4">
+                  你的浏览器不支持 HTML5 视频，可<a href="assets/video/arm-moveit2-physical.mp4">单独打开视频文件</a>。
+                </video>
+                <span class="player__frame" aria-hidden="true"></span>
+                <span class="player__badge"><i></i> REC / MOVEIT2 REAL ARM</span>
+              </div>
+              <aside class="demo__side">
+                <span class="demo__side-label">DEMO 03 / PROJECT 06 · MOVEIT2 IK</span>
+                <h4>MoveIt2 实物运动 · 位姿对照</h4>
+                <p>URDF 五关节模型在 RViz 中完成逆解与轨迹规划后，经 ROS2 动作通信与众灵自定义消息包收发，把轨迹点同步到实物机械臂；实物位姿与 RViz 规划位姿一致。</p>
+                <div class="demo__spec">
+                  <div><span>场景</span><b>目标位姿 → 逆解 → 实物同步</b></div>
+                  <div><span>链路</span><b>URDF / MoveIt2 / ROS2 Action</b></div>
+                  <div><span>通信</span><b>众灵自定义消息包 pub / sub</b></div>
+                  <div><span>录制</span><b>00:44 · 720×1280 竖屏 · H.264</b></div>
+                </div>
+                <a class="demo__open" href="assets/video/arm-moveit2-physical.mp4" target="_blank" rel="noopener">在新窗口打开视频 <span aria-hidden="true">↗</span></a>
+              </aside>
+            </article>
+
+            <!-- DEMO 04 / RViz 规划对照 -->
+            <article class="demo-card" id="demo-rviz">
+              <div class="player" data-player>
+                <div class="player__cover">
+                  <img src="assets/img/arm-demo-poster.png" alt="RViz MoveIt2 运动学逆解与轨迹规划运行录屏封面：机械臂模型与终端关节角输出" width="1280" height="720">
+                  <button class="player__play" type="button" data-play aria-label="播放 RViz 逆解与轨迹规划运行录屏">
+                    <span class="player__circle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z" fill="currentColor"/></svg></span>
+                    <span class="player__hint">点击播放规划录屏 <i>00:50</i></span>
+                  </button>
+                </div>
+                <video controls playsinline preload="none" width="1280" height="720" aria-label="RViz 中 MoveIt2 逆解与轨迹规划运行录屏">
                   <source src="assets/video/arm-motion-demo.mp4" type="video/mp4">
                   你的浏览器不支持 HTML5 视频，可<a href="assets/video/arm-motion-demo.mp4">单独打开视频文件</a>。
                 </video>
                 <span class="player__frame" aria-hidden="true"></span>
-                <span class="player__badge"><i></i> REC / MOVEIT2 IK TEST</span>
+                <span class="player__badge"><i></i> REC / RVIZ IK TEST</span>
               </div>
               <aside class="demo__side">
-                <span class="demo__side-label">DEMO 02 / PROJECT 06 · MOVEIT2 IK</span>
-                <h4>机械臂逆解与轨迹规划 · 运行实录</h4>
-                <p>RViz 中加载 URDF 机械臂模型，设定目标位姿后由 MoveIt2 求解逆运动学，终端实时打印各关节角；轨迹规划与执行返回 SUCCEEDED，关节指令下发至下位机驱动舵机。</p>
+                <span class="demo__side-label">DEMO 04 / PROJECT 06 · RVIZ SIDE</span>
+                <h4>RViz 逆解规划 · 对照录屏</h4>
+                <p>与 DEMO 03 实物视频对照：RViz 加载 URDF 机械臂模型与 MotionPlanning 面板，设定目标位姿后由 MoveIt2 求解逆运动学，终端实时打印关节角，Plan &amp; Execute 返回 SUCCEEDED。</p>
                 <div class="demo__spec">
                   <div><span>场景</span><b>目标位姿 → 逆解 → 轨迹执行</b></div>
                   <div><span>算法</span><b>MoveIt2 / IK / OMPL / URDF</b></div>
-                  <div><span>平台</span><b>ROS2 + RViz + STM32 下位机</b></div>
+                  <div><span>平台</span><b>ROS2 + MoveIt2 + RViz</b></div>
                   <div><span>录制</span><b>00:50 · 1280×720 · H.264</b></div>
                 </div>
                 <a class="demo__open" href="assets/video/arm-motion-demo.mp4" target="_blank" rel="noopener">在新窗口打开视频 <span aria-hidden="true">↗</span></a>
@@ -436,7 +499,7 @@
               <span class="demo__label">02.5 / PROJECT GALLERY</span>
               <h3>项目图集 · 按项目分组</h3>
             </div>
-            <p>6 个项目各成一组、共 21 张。点击图片左右两端箭头翻页，点击图片可放大查看原图。</p>
+            <p>6 个项目各成一组、共 23 张。点击图片左右两端箭头翻页，点击图片可放大查看原图。</p>
           </div>
 
           <div class="gallery__grid">
@@ -620,18 +683,24 @@
               <div class="gset__head">
                 <span class="gset__no">SET 05</span>
                 <h4>STM32 机械臂无线遥控系统 <em>2026.09 — 2026.11</em></h4>
-                <span class="gset__count"><b data-gset-current>01</b><i>/</i><span data-gset-total>02</span></span>
+                <span class="gset__count"><b data-gset-current>01</b><i>/</i><span data-gset-total>03</span></span>
               </div>
-              <div class="gset__stage" tabindex="0" role="group" aria-label="项目 05 图集，共 2 张，可用左右方向键翻页">
-                <figure class="gslide is-active" data-no="FIG. 01" data-title="APP → BT24W → STM32 → 舵机遥控链路" data-note="DIAGRAM · 1000×620" data-desc="APP 多模式指令经 BT24W 透明串口下发，STM32 完成帧校验、关节 ID 映射与众灵总线舵机协议封装；舵机角度回读后原路上报 APP 实时显示。">
+              <div class="gset__stage" tabindex="0" role="group" aria-label="项目 05 图集，共 3 张，可用左右方向键翻页">
+                <figure class="gslide is-active" data-no="FIG. 01" data-title="APP → BT24W → STM32 → 五关节舵机" data-note="DIAGRAM · 1000×620" data-desc="APP 多模式指令经 BT24W 透明串口下发，STM32 完成帧校验、J1–J5 关节 ID 映射与众灵总线舵机协议封装；舵机角度回读后原路上报 APP 实时显示。">
                   <button class="gslide__view" type="button" data-figure aria-label="放大查看 STM32 机械臂无线遥控链路示意图">
-                    <img src="assets/img/project-arm-remote.svg" alt="基于 STM32 与 BT24W 的机械臂无线遥控链路示意图" width="1000" height="620" decoding="async">
+                    <img src="assets/img/project-arm-remote.svg" alt="基于 STM32 与 BT24W 的五关节机械臂无线遥控链路示意图" width="1000" height="620" decoding="async">
                     <span class="gslide__zoom" aria-hidden="true">↗</span>
                   </button>
                 </figure>
-                <figure class="gslide" data-no="FIG. 02" data-title="总线舵机 UART 协议帧与关节映射" data-note="PROTOCOL · 1000×620" data-desc="指令帧由帧头、舵机 ID、长度、指令码、参数与校验组成；三类指令覆盖角度设置、角度回读与力矩释放，J1–J4 按 ID 对应双摇杆的上组 / 下组各 2 个舵机。">
+                <figure class="gslide" data-no="FIG. 02" data-title="总线舵机 UART 协议帧与五关节映射" data-note="PROTOCOL · 1000×620" data-desc="指令帧由帧头、舵机 ID、长度、指令码、参数与校验组成；三类指令覆盖角度设置、角度回读与力矩释放，J1–J5 五个关节按 ID 一一映射，由双摇杆分组控制。">
                   <button class="gslide__view" type="button" data-figure aria-label="放大查看众灵总线舵机 UART 协议帧与关节映射图">
-                    <img src="assets/img/arm-servo-protocol.svg" alt="众灵串口总线舵机 UART 指令帧格式、三类指令与 J1 至 J4 关节映射示意图" width="1000" height="620" decoding="async">
+                    <img src="assets/img/arm-servo-protocol.svg" alt="众灵串口总线舵机 UART 指令帧格式、三类指令与 J1 至 J5 五关节映射示意图" width="1000" height="620" decoding="async">
+                    <span class="gslide__zoom" aria-hidden="true">↗</span>
+                  </button>
+                </figure>
+                <figure class="gslide gslide--dark" data-no="FIG. 03" data-title="双摇杆 APP 遥控实机截帧" data-note="FIELD RECORDING · 1280×720" data-desc="BT24W 摇杆遥控实机录像截帧：手机 APP 上的双摇杆控制界面与桌面上的五关节机械臂、串口总线舵机接线。">
+                  <button class="gslide__view" type="button" data-figure aria-label="放大查看 BT24W 双摇杆遥控实机截帧">
+                    <img src="assets/img/arm-teleop-poster.png" alt="手机 APP 双摇杆控制界面与桌面上的五关节机械臂实机截帧" width="1280" height="720" decoding="async">
                     <span class="gslide__zoom" aria-hidden="true">↗</span>
                   </button>
                 </figure>
@@ -641,8 +710,8 @@
               <div class="gset__foot">
                 <div class="gset__info">
                   <span class="gset__idx" data-gset-idx>FIG. 01</span>
-                  <h5 data-gset-title>APP → BT24W → STM32 → 舵机遥控链路</h5>
-                  <p data-gset-desc>APP 多模式指令经 BT24W 透明串口下发，STM32 完成帧校验、关节 ID 映射与众灵总线舵机协议封装；舵机角度回读后原路上报 APP 实时显示。</p>
+                  <h5 data-gset-title>APP → BT24W → STM32 → 五关节舵机</h5>
+                  <p data-gset-desc>APP 多模式指令经 BT24W 透明串口下发，STM32 完成帧校验、J1–J5 关节 ID 映射与众灵总线舵机协议封装；舵机角度回读后原路上报 APP 实时显示。</p>
                 </div>
                 <div class="gset__dots" data-gset-dots aria-hidden="true"></div>
               </div>
@@ -653,12 +722,12 @@
               <div class="gset__head">
                 <span class="gset__no">SET 06</span>
                 <h4>MoveIt2 机械臂运动学逆解 <em>2026.09 — 2026.11</em></h4>
-                <span class="gset__count"><b data-gset-current>01</b><i>/</i><span data-gset-total>04</span></span>
+                <span class="gset__count"><b data-gset-current>01</b><i>/</i><span data-gset-total>05</span></span>
               </div>
-              <div class="gset__stage" tabindex="0" role="group" aria-label="项目 06 图集，共 4 张，可用左右方向键翻页">
-                <figure class="gslide is-active" data-no="FIG. 01" data-title="规划—通信—执行四级架构" data-note="DIAGRAM · 1000×620" data-desc="MoveIt2 上位机规划、URDF / SRDF 建模、BT24W 无线串口、STM32 下位机协议封装与众灵串口总线舵机；关节角下发与角度回传构成闭环。">
-                  <button class="gslide__view" type="button" data-figure aria-label="放大查看机械臂运动规划系统架构示意图">
-                    <img src="assets/img/project-arm.svg" alt="MoveIt2 与 STM32 机械臂运动规划系统架构示意图" width="1000" height="620" decoding="async">
+              <div class="gset__stage" tabindex="0" role="group" aria-label="项目 06 图集，共 5 张，可用左右方向键翻页">
+                <figure class="gslide is-active" data-no="FIG. 01" data-title="URDF → MoveIt2 → ROS2 动作通信架构" data-note="DIAGRAM · 1000×620" data-desc="SolidWorks 五关节模型 → URDF / SRDF → MoveIt2 逆解与轨迹规划 → ROS2 FollowJointTrajectory 动作 → 众灵自定义消息包收发 → 串口总线舵机；全链路只在 ROS2 侧，不经 STM32 / BT24W。">
+                  <button class="gslide__view" type="button" data-figure aria-label="放大查看 MoveIt2 逆解与 ROS2 动作通信架构示意图">
+                    <img src="assets/img/project-arm-moveit.svg" alt="MoveIt2 机械臂运动学逆解链路：URDF 建模、逆解规划、ROS2 动作通信与众灵自定义消息包收发" width="1000" height="620" decoding="async">
                     <span class="gslide__zoom" aria-hidden="true">↗</span>
                   </button>
                 </figure>
@@ -668,15 +737,21 @@
                     <span class="gslide__zoom" aria-hidden="true">↗</span>
                   </button>
                 </figure>
-                <figure class="gslide" data-no="FIG. 03" data-title="机械臂三维模型 / SolidWorks" data-note="CAD MODEL · 478×632" data-desc="用于 URDF 连杆与关节树建模的机械臂结构：底座回转、多关节串联与末端执行器，按实际尺寸建立运动学链与逆解坐标系。">
+                <figure class="gslide" data-no="FIG. 03" data-title="机械臂三维模型 / SolidWorks" data-note="CAD MODEL · 478×632" data-desc="用于 URDF 连杆与关节树建模的五自由度机械臂结构：底座回转、多关节串联与末端执行器，按实际尺寸建立运动学链与逆解坐标系。">
                   <button class="gslide__view" type="button" data-figure aria-label="放大查看机械臂 SolidWorks 三维模型">
-                    <img src="assets/img/arm-cad-model.png" alt="SolidWorks 中机械臂的三维工程模型，可见底座与多关节连杆" width="478" height="632" decoding="async">
+                    <img src="assets/img/arm-cad-model.png" alt="SolidWorks 中五自由度机械臂的三维工程模型，可见底座与多关节连杆" width="478" height="632" decoding="async">
                     <span class="gslide__zoom" aria-hidden="true">↗</span>
                   </button>
                 </figure>
-                <figure class="gslide gslide--dark" data-no="FIG. 04" data-title="RViz 逆解与轨迹规划运行实录" data-note="RVIZ / MOVEIT2 · 1280×720" data-desc="运行实录截帧：RViz 加载 URDF 机械臂模型与 MotionPlanning 面板，终端实时打印逆解得到的 joint1–joint4 角度与轨迹执行状态。">
+                <figure class="gslide gslide--dark" data-no="FIG. 04" data-title="RViz 逆解与轨迹规划运行实录" data-note="RVIZ / MOVEIT2 · 1280×720" data-desc="规划侧运行实录截帧：RViz 加载 URDF 机械臂模型与 MotionPlanning 面板，终端实时打印逆解得到的各关节角与轨迹执行状态。可与 FIG. 05 实物位姿对照。">
                   <button class="gslide__view" type="button" data-figure aria-label="放大查看 RViz 逆解与轨迹规划运行实录截帧">
                     <img src="assets/img/arm-demo-poster.png" alt="RViz 中的机械臂模型与 MotionPlanning 面板，终端输出逆解关节角与轨迹执行日志" width="1280" height="720" decoding="async">
+                    <span class="gslide__zoom" aria-hidden="true">↗</span>
+                  </button>
+                </figure>
+                <figure class="gslide gslide--dark" data-no="FIG. 05" data-title="实物机械臂 · 位姿与 RViz 一致" data-note="FIELD RECORDING · 1280×720" data-desc="实物侧录像截帧：MoveIt2 规划轨迹经 ROS2 动作通信与自定义消息包下发后，五关节机械臂运动到的位姿与 RViz 中规划位姿一致。">
+                  <button class="gslide__view" type="button" data-figure aria-label="放大查看实物机械臂位姿截帧">
+                    <img src="assets/img/arm-physical-poster.png" alt="桌面上的白色五关节机械臂与笔记本规划界面，实物位姿与 RViz 一致" width="1280" height="720" decoding="async">
                     <span class="gslide__zoom" aria-hidden="true">↗</span>
                   </button>
                 </figure>
@@ -686,8 +761,8 @@
               <div class="gset__foot">
                 <div class="gset__info">
                   <span class="gset__idx" data-gset-idx>FIG. 01</span>
-                  <h5 data-gset-title>规划—通信—执行四级架构</h5>
-                  <p data-gset-desc>MoveIt2 上位机规划、URDF / SRDF 建模、BT24W 无线串口、STM32 下位机协议封装与众灵串口总线舵机；关节角下发与角度回传构成闭环。</p>
+                  <h5 data-gset-title>URDF → MoveIt2 → ROS2 动作通信架构</h5>
+                  <p data-gset-desc>SolidWorks 五关节模型 → URDF / SRDF → MoveIt2 逆解与轨迹规划 → ROS2 FollowJointTrajectory 动作 → 众灵自定义消息包收发 → 串口总线舵机；全链路只在 ROS2 侧，不经 STM32 / BT24W。</p>
                 </div>
                 <div class="gset__dots" data-gset-dots aria-hidden="true"></div>
               </div>
@@ -804,7 +879,7 @@
       <div class="contact__bottom">
         <span>© 2026 陈靖明 · CHEN JINGMING</span>
         <span>EMBEDDED SYSTEMS / ROBOTICS / ROS2</span>
-        <span>BUILT FROM SCRATCH · V1.3</span>
+        <span>BUILT FROM SCRATCH · V1.4</span>
       </div>
     </div>
   </footer>
@@ -831,6 +906,7 @@
           <ul class="tags" id="modalStack"></ul>
         </div>
         <a class="modal__demo" id="modalDemoLink" href="#demo-ros" hidden>▶ 观看实机演示视频 <span aria-hidden="true">↗</span></a>
+        <a class="modal__demo" id="modalDemoLink2" href="#demo-rviz" hidden>▶ 对照 RViz 规划录屏 <span aria-hidden="true">↗</span></a>
         <a class="modal__demo" id="modalGalleryLink" href="#gallery" hidden>▦ 查看项目图集 <span aria-hidden="true">↗</span></a>
       </div>
     </div>
